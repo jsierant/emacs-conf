@@ -61,3 +61,22 @@ Return a list of installed packages or nil for every skipped package."
       airline-utf-glyph-branch              #xe0a0
       airline-utf-glyph-readonly            #xe0a2
       airline-utf-glyph-linenumber          #xe0a1)
+
+;; compilation
+(setq compilation-auto-jump-to-first-error t)
+(setq compilation-scroll-output t)
+;; No prompt for command
+(setq compilation-read-command nil)
+(global-set-key (kbd "<f8>") 'compile)
+
+;; close window on successfull build
+(setq compilation-finish-functions
+  (lambda (buf str)
+    (if (null (string-match ".*exited abnormally.*" str))
+        ;;no errors, make the compilation window go away in a few seconds
+        (progn
+          (run-at-time
+           "2 sec" nil 'delete-windows-on
+           (get-buffer-create "*compilation*"))
+          (message "No Compilation Errors!")))))
+(setq compilation-window-height 15)
