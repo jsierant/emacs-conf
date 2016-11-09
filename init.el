@@ -41,7 +41,7 @@ Return a list of installed packages or nil for every skipped package."
 (or (file-exists-p package-user-dir)
     (package-refresh-contents))
 
-(ensure-package-installed 'darktooth-theme 'powerline 'evil 'airline-themes)
+(ensure-package-installed 'darktooth-theme 'powerline 'evil 'airline-themes 'evil-matchit)
 
 ;; activate installed packages
 (package-initialize)
@@ -96,3 +96,8 @@ Return a list of installed packages or nil for every skipped package."
         (linum-mode 1)
         (goto-line (read-number "Goto line: ")))
       (linum-mode -1)))
+
+
+;;Press “%” to jump between matched tags in Emacs. For example, in HTML “<div>” and “</div>” are a pair of tags.
+(require 'evil-matchit)
+(global-evil-matchit-mode 1)
