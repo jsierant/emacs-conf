@@ -10,8 +10,12 @@
 (setq-default indent-tabs-mode nil)    ; use only spaces and no tabs
 (setq tab-width 3)
 
+;; line wrap disabled
+(setq-default truncate-lines 1)
 
 (set-frame-font "LiberationMono-9")
+
+
 
 ;; packages
 (require 'package)
@@ -80,3 +84,15 @@ Return a list of installed packages or nil for every skipped package."
            (get-buffer-create "*compilation*"))
           (message "No Compilation Errors!")))))
 (setq compilation-window-height 15)
+
+;; line numbers - only on go to line
+;;(global-linum-mode 1)
+(require 'linum)
+(setq linum-format " %3d\u2502")
+(global-set-key (kbd "C-g") 'goto-line-with-feedback)
+
+(defun goto-line-with-feedback ()   "Show line numbers temporarily, while prompting for the line number input"   (interactive)   (unwind-protect
+      (progn
+        (linum-mode 1)
+        (goto-line (read-number "Goto line: ")))
+      (linum-mode -1)))
