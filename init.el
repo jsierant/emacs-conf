@@ -225,3 +225,19 @@ Return a list of installed packages or nil for every skipped package."
                company-elisp
                company-shell
                company-ispell))
+
+;; window split and navigation
+(defadvice split-window (after move-point-to-new-window activate)
+  "Moves the point to the newly created window after splitting."
+  (other-window 1))
+
+(evil-leader/set-key
+  "s w r" 'split-window-right
+  "s w l" 'split-window-left
+  "s w d" 'split-window-below
+  "s w u" 'split-window-above
+  "f w r" 'evil-window-right
+  "f w l" 'evil-window-left
+  "f w d" 'evil-window-down
+  "f w u" 'evil-window-up
+  )
