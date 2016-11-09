@@ -47,6 +47,7 @@ Return a list of installed packages or nil for every skipped package."
  'airline-themes
  'evil
  'evil-matchit
+ 'evil-leader
  'helm
  'projectile
  'helm-projectile
@@ -62,6 +63,12 @@ Return a list of installed packages or nil for every skipped package."
 (package-initialize)
 
 (require 'darktooth-theme)
+
+
+(require 'evil-leader)
+(global-evil-leader-mode)
+
+(evil-leader/set-leader ",")
 
 (require 'evil)
 (evil-mode 1)
@@ -127,6 +134,9 @@ Return a list of installed packages or nil for every skipped package."
 (global-set-key (kbd "C-x b") 'helm-mini)                                                                              
 (global-set-key (kbd "C-x C-b") 'helm-buffers-list)                                                                    
 (global-set-key (kbd "C-x C-f") 'helm-find-files)                                                                      
+(evil-leader/set-key
+  "l b" 'helm-buffers-list)
+
 (setq                                                                                                                  
  helm-split-window-in-side-p           t                                                                               
    ; open helm buffer inside current window,                                                                           
