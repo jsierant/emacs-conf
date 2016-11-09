@@ -52,6 +52,7 @@ Return a list of installed packages or nil for every skipped package."
  'helm-projectile
  'yasnippet
  'magit
+ 'git-gutter
  'company
  'company-quickhelp
  'company-shell
@@ -105,7 +106,9 @@ Return a list of installed packages or nil for every skipped package."
 (setq linum-format " %3d\u2502")
 (global-set-key (kbd "C-g") 'goto-line-with-feedback)
 
-(defun goto-line-with-feedback ()   "Show line numbers temporarily, while prompting for the line number input"   (interactive)   (unwind-protect
+(defun goto-line-with-feedback ()
+  "Show line numbers temporarily, while prompting for the line number input"
+  (interactive)   (unwind-protect
       (progn
         (linum-mode 1)
         (goto-line (read-number "Goto line: ")))
@@ -158,6 +161,19 @@ Return a list of installed packages or nil for every skipped package."
 
 (global-set-key (kbd "C-x g s") 'magit-status)
 (global-set-key (kbd "C-x g c i") 'magit-commit)
+
+(require 'git-gutter)
+(global-git-gutter-mode t)
+
+(add-hook 'after-save-hook 'git-gutter:update-all-windows)
+(custom-set-variables
+ '(git-gutter:modified-sign "\u2502")
+ '(git-gutter:added-sign    "\u2502")
+ '(git-gutter:deleted-sign  "\u2502"))
+
+(set-face-foreground 'git-gutter:modified "purple") ;; background color
+(set-face-foreground 'git-gutter:added "green")
+(set-face-foreground 'git-gutter:deleted "red")
 
 ;; completion
 (require 'company)
