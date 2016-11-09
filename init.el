@@ -41,7 +41,15 @@ Return a list of installed packages or nil for every skipped package."
 (or (file-exists-p package-user-dir)
     (package-refresh-contents))
 
-(ensure-package-installed 'darktooth-theme 'powerline 'evil 'airline-themes 'evil-matchit 'helm)
+(ensure-package-installed
+ 'darktooth-theme
+ 'powerline
+ 'airline-themes
+ 'evil
+ 'evil-matchit
+ 'helm
+ 'projectile
+ 'helm-projectile)
 
 ;; activate installed packages
 (package-initialize)
@@ -127,6 +135,11 @@ Return a list of installed packages or nil for every skipped package."
  helm-imenu-fuzzy-match    t)                                                                                          
 ;; Have helm automaticaly resize the window                                                                            
 (helm-autoresize-mode 1)
+
+
+(require 'projectile)
+(require 'helm-projectile)
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -134,7 +147,7 @@ Return a list of installed packages or nil for every skipped package."
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (helm evil-matchit powerline-evil darktooth-theme airline-themes))))
+    (helm-projectile projectile powerline-evil helm evil-matchit darktooth-theme airline-themes))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
