@@ -13,7 +13,7 @@
 ;; line wrap disabled
 (setq-default truncate-lines 1)
 
-(set-frame-font "LiberationMono-9")
+(set-frame-font "LiberationMono-14")
 
 
 
@@ -52,6 +52,8 @@ Return a list of installed packages or nil for every skipped package."
  'helm-projectile
  'yasnippet
  'magit
+ 'company
+ 'company-quickhelp
  )
 
 ;; activate installed packages
@@ -154,17 +156,30 @@ Return a list of installed packages or nil for every skipped package."
 (require 'magit)
 
 (global-set-key (kbd "C-x g s") 'magit-status)
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   (quote
-    (magit yasnippet powerline-evil helm-projectile evil-matchit darktooth-theme airline-themes))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+
+;; completion
+(require 'company)
+(global-company-mode 1)
+(setq company-auto-complete nil)
+
+(setq company-idle-delay 0.1)
+(setq company-minimum-prefix-length 3)
+
+
+(require 'company-dabbrev)
+(setq company-dabbrev-downcase nil)
+(setq company-dabbrev-other-buffers t)
+
+(global-unset-key (kbd "C-SPC"))
+(global-set-key (kbd "C-SPC w") 'company-dabbrev)
+(global-set-key (kbd "C-SPC c") 'company-complete)
+(global-set-key (kbd "C-SPC a") 'company-complete-common)
+
+(require 'company-yasnippet)
+(global-set-key (kbd "C-SPC s") 'company-yasnippet)
+
+(require 'company-quickhelp)
+(company-quickhelp-mode 1)
+
+
+(add-to-list 'company-backends '(company-dabbrev company-yasnippet))
