@@ -54,6 +54,7 @@ Return a list of installed packages or nil for every skipped package."
  'magit
  'company
  'company-quickhelp
+ 'company-shell
  )
 
 ;; activate installed packages
@@ -156,11 +157,12 @@ Return a list of installed packages or nil for every skipped package."
 (require 'magit)
 
 (global-set-key (kbd "C-x g s") 'magit-status)
+(global-set-key (kbd "C-x g c i") 'magit-commit)
 
 ;; completion
 (require 'company)
 (global-company-mode 1)
-(setq company-auto-complete nil)
+;(setq company-auto-complete nil)
 
 (setq company-idle-delay 0.1)
 (setq company-minimum-prefix-length 3)
@@ -170,19 +172,27 @@ Return a list of installed packages or nil for every skipped package."
 (setq company-dabbrev-downcase nil)
 (setq company-dabbrev-other-buffers t)
 
-(global-unset-key (kbd "C-SPC"))
-(global-set-key (kbd "C-SPC w") 'company-dabbrev)
-(global-set-key (kbd "C-SPC c") 'company-complete)
-(global-set-key (kbd "C-SPC a") 'company-complete-common)
+(global-set-key (kbd "C-x c w") 'company-dabbrev)
+(global-set-key (kbd "C-x c a") 'company-complete-common)
 
 (require 'company-yasnippet)
-(global-set-key (kbd "C-SPC s") 'company-yasnippet)
+(global-set-key (kbd "C-x c s") 'company-yasnippet)
 
 (require 'company-quickhelp)
 (company-quickhelp-mode 1)
 
 (require 'company-files)
-(define-key global-map (kbd "C-SPC f") 'company-files)
+(define-key global-map (kbd "C-x c f") 'company-files)
 
+(require 'company-elisp)
 
-(add-to-list 'company-backends '(company-dabbrev company-yasnippet company-files))
+(require 'company-shell)
+
+(add-to-list 'company-backends
+             '(company-dabbrev
+               company-yasnippet
+               company-files
+               company-quickhelp
+               company-elisp
+               company-shell
+               company-ispell))
