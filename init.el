@@ -37,7 +37,7 @@ Return a list of installed packages or nil for every skipped package."
 (or (file-exists-p package-user-dir)
     (package-refresh-contents))
 
-(ensure-package-installed 'darktooth-theme 'powerline 'evil 'powerline-evil)
+(ensure-package-installed 'darktooth-theme 'powerline 'evil 'airline-themes)
 
 ;; activate installed packages
 (package-initialize)
