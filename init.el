@@ -141,6 +141,7 @@ Return a list of installed packages or nil for every skipped package."
 
 (require 'projectile)
 (require 'helm-projectile)
+(helm-projectile-on)
 
 (require 'yasnippet)
 (add-to-list 'yas-snippet-dirs "~/.emacs.d/yasnippet-snippets/")
