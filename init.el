@@ -41,7 +41,7 @@ Return a list of installed packages or nil for every skipped package."
 (or (file-exists-p package-user-dir)
     (package-refresh-contents))
 
-(ensure-package-installed 'darktooth-theme 'powerline 'evil 'airline-themes 'evil-matchit)
+(ensure-package-installed 'darktooth-theme 'powerline 'evil 'airline-themes 'evil-matchit 'helm)
 
 ;; activate installed packages
 (package-initialize)
@@ -101,3 +101,43 @@ Return a list of installed packages or nil for every skipped package."
 ;;Press “%” to jump between matched tags in Emacs. For example, in HTML “<div>” and “</div>” are a pair of tags.
 (require 'evil-matchit)
 (global-evil-matchit-mode 1)
+
+
+(require 'helm)                                                                                                        
+(global-set-key (kbd "C-c h") 'helm-command-prefix)                                                                    
+(global-unset-key (kbd "C-x c"))                                                                                       
+(global-set-key (kbd "M-x") 'helm-M-x)                                                                                 
+(global-set-key (kbd "C-x b") 'helm-mini)                                                                              
+(global-set-key (kbd "C-x C-b") 'helm-buffers-list)                                                                    
+(global-set-key (kbd "C-x C-f") 'helm-find-files)                                                                      
+(setq                                                                                                                  
+ helm-split-window-in-side-p           t                                                                               
+   ; open helm buffer inside current window,                                                                           
+   ; not occupy whole other window                                                                                     
+ helm-move-to-line-cycle-in-source     t                                                                               
+   ; move to end or beginning of source when                                                                           
+   ; reaching top or bottom of source.                                                                                 
+ helm-ff-search-library-in-sexp        t                                                                               
+   ; search for library in `require' and `declare-function' sexp.                                                      
+ helm-scroll-amount                    8                                                                               
+   ; scroll 8 lines other window using M-<next>/M-<prior>                                                              
+ helm-ff-file-name-history-use-recentf t                                                                               
+ ;; Allow fuzzy matches in helm semantic                                                                               
+ helm-semantic-fuzzy-match t                                                                                           
+ helm-imenu-fuzzy-match    t)                                                                                          
+;; Have helm automaticaly resize the window                                                                            
+(helm-autoresize-mode 1)
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   (quote
+    (helm evil-matchit powerline-evil darktooth-theme airline-themes))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
