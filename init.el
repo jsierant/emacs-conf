@@ -51,6 +51,7 @@ Return a list of installed packages or nil for every skipped package."
  'projectile
  'helm-projectile
  'yasnippet
+ 'magit
  )
 
 ;; activate installed packages
@@ -147,3 +148,23 @@ Return a list of installed packages or nil for every skipped package."
 (add-to-list 'yas-snippet-dirs "~/.emacs.d/yasnippet-snippets/")
 (yas-global-mode 1)
 (yas-reload-all)
+
+
+;; git
+(require 'magit)
+
+(global-set-key (kbd "C-x g s") 'magit-status)
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   (quote
+    (magit yasnippet powerline-evil helm-projectile evil-matchit darktooth-theme airline-themes))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
