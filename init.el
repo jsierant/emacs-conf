@@ -181,5 +181,8 @@ Return a list of installed packages or nil for every skipped package."
 (require 'company-quickhelp)
 (company-quickhelp-mode 1)
 
+(require 'company-files)
+(define-key global-map (kbd "C-SPC f") 'company-files)
 
-(add-to-list 'company-backends '(company-dabbrev company-yasnippet))
+
+(add-to-list 'company-backends '(company-dabbrev company-yasnippet company-files))
