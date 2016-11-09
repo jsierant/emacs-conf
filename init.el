@@ -165,6 +165,9 @@ Return a list of installed packages or nil for every skipped package."
 (require 'git-gutter)
 (global-git-gutter-mode t)
 
+(custom-set-variables
+ '(git-gutter:update-interval 2))
+
 (add-hook 'after-save-hook 'git-gutter:update-all-windows)
 (custom-set-variables
  '(git-gutter:modified-sign "\u2502")
