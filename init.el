@@ -57,7 +57,9 @@ Return a list of installed packages or nil for every skipped package."
  'company
  'company-quickhelp
  'company-shell
- 'elpy
+ 'company-anaconda
+ 'flycheck
+ 'flycheck-pyflakes
  )
 
 ;; activate installed packages
@@ -158,11 +160,12 @@ Return a list of installed packages or nil for every skipped package."
 
 
 (require 'projectile)
+(projectile-global-mode)
 (require 'helm-projectile)
 (helm-projectile-on)
 
 (require 'yasnippet)
-(add-to-list 'yas-snippet-dirs "~/.emacs.d/yasnippet-snippets/")
+(setq yas-snippet-dirs '("~/.emacs.d/snippets/"))
 (yas-global-mode 1)
 (yas-reload-all)
 
@@ -182,9 +185,7 @@ Return a list of installed packages or nil for every skipped package."
  '(git-gutter:modified-sign "│")
  '(git-gutter:update-interval 2)
  )
-
 (add-hook 'after-save-hook 'git-gutter:update-all-windows)
-
 
 (set-face-foreground 'git-gutter:modified "purple") ;; background color
 (set-face-foreground 'git-gutter:added "green")
@@ -196,44 +197,67 @@ Return a list of installed packages or nil for every skipped package."
 ;(setq company-auto-complete nil)
 
 (setq company-idle-delay 0.1)
-(setq company-minimum-prefix-length 3)
+(setq company-minimum-prefix-length 2)
 
 
 (require 'company-dabbrev)
 (setq company-dabbrev-downcase nil)
 (setq company-dabbrev-other-buffers t)
 
-(global-set-key (kbd "C-x c w") 'company-dabbrev)
-(global-set-key (kbd "C-x c a") 'company-complete-common)
+
+(global-set-key (kbd "C-SPC") nil)
+
+(global-set-key (kbd "C-c w") 'company-dabbrev)
+(global-set-key (kbd "C-SPC") 'company-complete)
 
 (require 'company-yasnippet)
-(global-set-key (kbd "C-x c s") 'company-yasnippet)
+(global-set-key (kbd "C-c s") 'company-yasnippet)
 
 (require 'company-quickhelp)
 (company-quickhelp-mode 1)
 
 (require 'company-files)
-(define-key global-map (kbd "C-x c f") 'company-files)
+(define-key global-map (kbd "C-c f") 'company-files)
 
 (require 'company-elisp)
 
 (require 'company-shell)
 
-(require 'python-docstring)
 
-(require 'elpy)
+(define-key company-active-map (kbd "C-e") #'company-other-backend)
 
-(elpy-enable)
 
-(add-to-list 'company-backends
-             '(company-jedi
-               company-shell
-               company-elisp
-               company-files
-               company-dabbrev
-               company-yasnippet
-               company-quickhelp
-               ))
+(require 'flycheck)
+
+;; == languages
+
+;; python
+(require 'anaconda-mode)
+(require 'company-anaconda)
+(require 'flycheck-pyflakes)
+
+(add-hook 'python-mode-hook 'anaconda-mode)
+(add-hook 'python-mode-hook 'anaconda-eldoc-mode)
+(defun python/mode-setup()
+  "Setup function for python mode"
+  (setq-local company-backends
+              '(company-anaconda
+                company-yasnippet
+                company-dabbrev
+                company-quickhelp))
+  (flycheck-mode)
+  
+(local-set-key (kbd "C-c d") 'anaconda-mode-show-doc)
+)
+
+(add-hook 'python-mode-hook 'python/mode-setup)
+
+(evil-leader/set-key-for-mode
+  'python-mode
+  "s d" 'anaconda-mode-show-doc
+  "g d" 'anaconda-mode-find-definitions
+  "f r" 'anaconda-mode-find-references
+  "g b" 'anaconda-mode-go-back)
 
 ;; window split and navigation
 (defadvice split-window (after move-point-to-new-window activate)
@@ -250,4 +274,3 @@ Return a list of installed packages or nil for every skipped package."
   "f w b" 'evil-window-down
   "f w a" 'evil-window-up
   )
-
