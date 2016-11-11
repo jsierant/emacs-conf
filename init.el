@@ -57,6 +57,7 @@ Return a list of installed packages or nil for every skipped package."
  'company
  'company-quickhelp
  'company-shell
+ 'elpy
  )
 
 ;; activate installed packages
@@ -176,13 +177,14 @@ Return a list of installed packages or nil for every skipped package."
 (global-git-gutter-mode t)
 
 (custom-set-variables
- '(git-gutter:update-interval 2))
+ '(git-gutter:added-sign "│")
+ '(git-gutter:deleted-sign "│")
+ '(git-gutter:modified-sign "│")
+ '(git-gutter:update-interval 2)
+ )
 
 (add-hook 'after-save-hook 'git-gutter:update-all-windows)
-(custom-set-variables
- '(git-gutter:modified-sign "\u2502")
- '(git-gutter:added-sign    "\u2502")
- '(git-gutter:deleted-sign  "\u2502"))
+
 
 (set-face-foreground 'git-gutter:modified "purple") ;; background color
 (set-face-foreground 'git-gutter:added "green")
@@ -217,14 +219,21 @@ Return a list of installed packages or nil for every skipped package."
 
 (require 'company-shell)
 
+(require 'python-docstring)
+
+(require 'elpy)
+
+(elpy-enable)
+
 (add-to-list 'company-backends
-             '(company-dabbrev
-               company-yasnippet
-               company-files
-               company-quickhelp
-               company-elisp
+             '(company-jedi
                company-shell
-               company-ispell))
+               company-elisp
+               company-files
+               company-dabbrev
+               company-yasnippet
+               company-quickhelp
+               ))
 
 ;; window split and navigation
 (defadvice split-window (after move-point-to-new-window activate)
@@ -234,10 +243,11 @@ Return a list of installed packages or nil for every skipped package."
 (evil-leader/set-key
   "s w r" 'split-window-right
   "s w l" 'split-window-left
-  "s w d" 'split-window-below
-  "s w u" 'split-window-above
+  "s w b" 'split-window-below
+  "s w a" 'split-window-above
   "f w r" 'evil-window-right
   "f w l" 'evil-window-left
-  "f w d" 'evil-window-down
-  "f w u" 'evil-window-up
+  "f w b" 'evil-window-down
+  "f w a" 'evil-window-up
   )
+
