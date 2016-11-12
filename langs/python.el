@@ -3,21 +3,25 @@
 (require 'company-anaconda)
 (require 'flycheck-pyflakes)
 
-(add-hook 'python-mode-hook 'anaconda-mode)
-(add-hook 'python-mode-hook 'anaconda-eldoc-mode)
 (defun python/mode-setup()
   "Setup function for python mode"
-  (setq-local company-backends
-              '(company-anaconda
-                company-yasnippet
-                company-dabbrev
-                company-quickhelp))
+   (set (make-local-variable 'company-backends)
+        '((company-anaconda
+           company-yasnippet
+           company-files
+           company-dabbrev
+           )))
+
   (flycheck-mode)
   (flycheck-select-checker 'python-flake8)
 
+  (highlight-indent-guides-mode)
+
+  (anaconda-mode)
+  (anaconda-eldoc-mode)
   (local-set-key (kbd "C-c d") 'anaconda-mode-show-doc)
 
-  (highlight-indent-guides-mode)
+  (company-mode)
 )
 
 (add-hook 'python-mode-hook 'python/mode-setup)

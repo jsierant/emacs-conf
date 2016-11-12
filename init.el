@@ -202,7 +202,6 @@ Return a list of installed packages or nil for every skipped package."
 
 ;; completion
 (require 'company)
-(global-company-mode 1)
 ;(setq company-auto-complete nil)
 
 (setq company-idle-delay 0.1)
