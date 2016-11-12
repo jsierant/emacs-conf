@@ -4,7 +4,6 @@
 ;;; Code:
 
 (require 'company-shell)
-(require 'bash-completion)
 
 (require 'shelldoc)
 
