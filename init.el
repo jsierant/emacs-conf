@@ -72,6 +72,11 @@ Return a list of installed packages or nil for every skipped package."
 (setq highlight-indent-guides-method 'character)
 (set-face-foreground 'highlight-indent-guides-character-face "darkgray")
 
+(require 'whitespace)
+(setq-default whitespace-line-column 120)
+(setq-default whitespace-style '(face lines-tail trailing spaces tabs))
+(add-hook 'prog-mode-hook 'whitespace-mode)
+
 (require 'evil-leader)
 (global-evil-leader-mode)
 
