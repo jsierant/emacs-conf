@@ -60,8 +60,6 @@ Return a list of installed packages or nil for every skipped package."
  'company-anaconda
  'flycheck
  'flycheck-pyflakes
- 'fill-column-indicator
- 'highlight-indent-guides
  )
 
 ;; activate installed packages
@@ -92,21 +90,6 @@ Return a list of installed packages or nil for every skipped package."
       airline-utf-glyph-branch              #xe0a0
       airline-utf-glyph-readonly            #xe0a2
       airline-utf-glyph-linenumber          #xe0a1)
-
-;; column highlighting
-(require 'fill-column-indicator)
-(setq fci-rule-width 1)
-(setq fci-rule-color "darkgray")
-(setq fci-rule-column 120)
-(define-globalized-minor-mode global-fci-mode fci-mode (lambda () (fci-mode 1)))
-(global-fci-mode 1)
-
-(require 'highlight-indent-guides)
-(setq highlight-indent-guides-method 'character)
-(set-face-foreground 'highlight-indent-guides-character-face "darkgray")
-(require 'whitespace)
-(setq-default whitespace-style '(face trailing))
-(global-whitespace-mode 1)
 
 ;; compilation
 (setq compilation-auto-jump-to-first-error t)
@@ -201,8 +184,8 @@ Return a list of installed packages or nil for every skipped package."
  '(git-gutter:deleted-sign "│")
  '(git-gutter:modified-sign "│")
  '(git-gutter:update-interval 2)
-)
- (add-hook 'after-save-hook 'git-gutter:update-all-windows)
+ )
+(add-hook 'after-save-hook 'git-gutter:update-all-windows)
 
 (set-face-foreground 'git-gutter:modified "purple") ;; background color
 (set-face-foreground 'git-gutter:added "green")
@@ -262,13 +245,10 @@ Return a list of installed packages or nil for every skipped package."
                 company-yasnippet
                 company-dabbrev
                 company-quickhelp))
-  
-  (local-set-key (kbd "C-c d") 'anaconda-mode-show-doc)
   (flycheck-mode)
-  (flycheck-select-checker 'python-flake8)
-  (highlight-indent-guides-mode)
-  (hc-highlight-tabs)
- )
+  
+(local-set-key (kbd "C-c d") 'anaconda-mode-show-doc)
+)
 
 (add-hook 'python-mode-hook 'python/mode-setup)
 
@@ -294,4 +274,3 @@ Return a list of installed packages or nil for every skipped package."
   "f w b" 'evil-window-down
   "f w a" 'evil-window-up
   )
-
