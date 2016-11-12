@@ -250,6 +250,7 @@ Return a list of installed packages or nil for every skipped package."
                 company-dabbrev
                 company-quickhelp))
   (flycheck-mode)
+  (flycheck-select-checker 'python-flake8)
 
   (local-set-key (kbd "C-c d") 'anaconda-mode-show-doc)
 
