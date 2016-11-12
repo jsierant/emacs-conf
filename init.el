@@ -1,3 +1,10 @@
+;;; package -- Emacs configuration
+
+;;; Commentary:
+
+
+;;; Code:
+
 ;; view
 (tool-bar-mode -1)
 (menu-bar-mode -1)
@@ -14,8 +21,6 @@
 (setq-default truncate-lines 1)
 
 (set-frame-font "LiberationMono-14")
-
-
 
 ;; packages
 (require 'package)
@@ -61,6 +66,7 @@ Return a list of installed packages or nil for every skipped package."
  'flycheck
  'flycheck-pyflakes
  'highlight-indent-guides
+ 'elisp-slime-nav
  )
 
 ;; activate installed packages
@@ -101,6 +107,7 @@ Return a list of installed packages or nil for every skipped package."
       airline-utf-glyph-linenumber          #xe0a1)
 
 ;; compilation
+
 (setq compilation-auto-jump-to-first-error t)
 (setq compilation-scroll-output t)
 ;; No prompt for command
@@ -227,7 +234,6 @@ Return a list of installed packages or nil for every skipped package."
 (require 'company-files)
 (define-key global-map (kbd "C-c f") 'company-files)
 
-(require 'company-elisp)
 
 (require 'company-shell)
 
@@ -239,6 +245,7 @@ Return a list of installed packages or nil for every skipped package."
 
 ;; == languages
 (load "~/.emacs.d/langs/python.el")
+(load "~/.emacs.d/langs/elisp.el")
 
 ;; window split and navigation
 (defadvice split-window (after move-point-to-new-window activate)
@@ -255,3 +262,6 @@ Return a list of installed packages or nil for every skipped package."
   "f w b" 'evil-window-down
   "f w a" 'evil-window-up
   )
+
+(provide 'init)
+;;; init.el ends here
