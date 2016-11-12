@@ -60,6 +60,7 @@ Return a list of installed packages or nil for every skipped package."
  'company-anaconda
  'flycheck
  'flycheck-pyflakes
+ 'highlight-indent-guides
  )
 
 ;; activate installed packages
@@ -67,6 +68,9 @@ Return a list of installed packages or nil for every skipped package."
 
 (require 'darktooth-theme)
 
+(require 'highlight-indent-guides)
+(setq highlight-indent-guides-method 'character)
+(set-face-foreground 'highlight-indent-guides-character-face "darkgray")
 
 (require 'evil-leader)
 (global-evil-leader-mode)
@@ -246,8 +250,10 @@ Return a list of installed packages or nil for every skipped package."
                 company-dabbrev
                 company-quickhelp))
   (flycheck-mode)
-  
-(local-set-key (kbd "C-c d") 'anaconda-mode-show-doc)
+
+  (local-set-key (kbd "C-c d") 'anaconda-mode-show-doc)
+
+  (highlight-indent-guides-mode)
 )
 
 (add-hook 'python-mode-hook 'python/mode-setup)
