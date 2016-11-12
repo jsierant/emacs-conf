@@ -67,7 +67,6 @@ Return a list of installed packages or nil for every skipped package."
  'flycheck-pyflakes
  'highlight-indent-guides
  'elisp-slime-nav
- 'flymake-shell
  'shelldoc
  )
 

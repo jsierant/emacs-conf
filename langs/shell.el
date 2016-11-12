@@ -5,10 +5,7 @@
 
 (require 'company-shell)
 (require 'bash-completion)
-(bash-completion-setup)
-(add-hook 'shell-dynamic-complete-functions 'bash-completion-dynamic-complete)
 
-(require 'flymake-shell)
 (require 'shelldoc)
 
 (defun shell/mode-setup()
@@ -24,7 +21,7 @@
   (local-set-key (kbd "C-c d") 'describe-symbol)
 
   (company-mode)
-  (flymake-shell-load)
+  (flycheck-mode)
   (shelldoc-minor-mode-on)
 )
 
