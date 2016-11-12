@@ -1,7 +1,7 @@
 
-
 (require 'company-elisp)
 (require 'elisp-slime-nav)
+(require 'company-quickhelp)
 
 (defun elisp/mode-setup()
   "Setup function for elisp mode"
@@ -17,6 +17,7 @@
   (elisp-slime-nav-mode)
   (local-set-key (kbd "C-c d") 'describe-symbol)
   (company-mode)
+  (company-quickhelp-mode 1)
   )
 
 (add-hook 'ielm-mode-hook 'elisp/mode-setup)

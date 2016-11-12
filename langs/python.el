@@ -2,6 +2,7 @@
 (require 'anaconda-mode)
 (require 'company-anaconda)
 (require 'flycheck-pyflakes)
+(require 'company-quickhelp)
 
 (defun python/mode-setup()
   "Setup function for python mode"
@@ -22,6 +23,7 @@
   (local-set-key (kbd "C-c d") 'anaconda-mode-show-doc)
 
   (company-mode)
+  (company-quickhelp-mode 1)
 )
 
 (add-hook 'python-mode-hook 'python/mode-setup)
