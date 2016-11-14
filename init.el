@@ -10,6 +10,7 @@
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
 (setq x-super-keysym 'meta)
+(setq x-alt-keysym 'alt)
 
 ;; disable welcome screen
 (setq inhibit-splash-screen t)
@@ -117,6 +118,10 @@ Return a list of installed packages or nil for every skipped package."
 (global-set-key (kbd "<f8>") 'projectile-compile-project)
 (setq helm-make-list-target-method "qp")
 (global-set-key (kbd "<f7>") 'helm-make-projectile)
+
+;; project grep/find files
+(global-set-key (kbd "C-M-f") 'helm-projectile-find-file)
+(global-set-key (kbd "C-M-g") 'helm-projectile-grep)
 
 ;; close window on successfull build
 (setq compilation-finish-functions
