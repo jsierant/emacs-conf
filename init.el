@@ -298,6 +298,21 @@ Return a list of installed packages or nil for every skipped package."
 ;; Show only one active window when opening multiple files at the same time.
 (add-hook 'window-setup-hook 'delete-other-windows)
 
+(defun projectile-frame-title-format ()
+    "Return frame title with current project name, where applicable."
+    (let ((file buffer-file-name))
+       (if file
+           (concat (when (and (bound-and-true-p projectile-mode)
+                              (projectile-project-p))
+                     (format " [%s]" (projectile-project-name)))
+                   " "
+                   (file-name-nondirectory file))
+           "%b")))
+
+  (when (display-graphic-p)
+    (setq frame-title-format '((:eval (projectile-frame-title-format)))))
+
+
 (load "~/.emacs.d/package-selected-packages.el")
 
 (provide 'init)
