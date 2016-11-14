@@ -1,0 +1,6 @@
+[submodule "snippets"]
+	path = snippets
+	url = https://jsierant@github.com/jsierant/yasnippet-snippets.git
+[submodule "helm-etags-plus"]
+	path = helm-etags-plus
+	url = https://github.com/jixiuf/helm-etags-plus.git

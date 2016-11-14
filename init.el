@@ -177,7 +177,9 @@ Return a list of installed packages or nil for every skipped package."
 
 
 (require 'projectile)
-(projectile-global-mode)
+(projectile-mode)
+(setq projectile-mode-line '(:eval (format " pro[%s]" (projectile-project-name))))
+
 (require 'helm-projectile)
 (helm-projectile-on)
 
@@ -232,19 +234,18 @@ Return a list of installed packages or nil for every skipped package."
 (require 'company-files)
 (define-key global-map (kbd "C-c f") 'company-files)
 
-
-(require 'company-shell)
-
-
 (define-key company-active-map (kbd "C-e") #'company-other-backend)
 
 
 (require 'flycheck)
 
+(load "~/.emacs.d/helm-etags-plus/ctags-update.el")
+
 ;; == languages
 (load "~/.emacs.d/langs/python.el")
 (load "~/.emacs.d/langs/elisp.el")
 (load "~/.emacs.d/langs/shell.el")
+(load "~/.emacs.d/langs/makefile.el")
 
 ;; window split and navigation
 (defadvice split-window (after move-point-to-new-window activate)
@@ -275,8 +276,8 @@ Return a list of installed packages or nil for every skipped package."
 (add-hook 'after-change-major-mode-hook 'remove-scratch-buffer)
 
 ;; Removes *messages* from the buffer.
-(setq-default message-log-max nil)
-(kill-buffer "*Messages*")
+;;(setq-default message-log-max nil)
+;;(kill-buffer "*Messages*")
 
 ;; Removes *Completions* from buffer after you've opened a file.
 (add-hook 'minibuffer-exit-hook
@@ -292,6 +293,6 @@ Return a list of installed packages or nil for every skipped package."
 (add-hook 'window-setup-hook 'delete-other-windows)
 
 (load "~/.emacs.d/package-selected-packages.el")
-
+(setq debug-on-error t)
 (provide 'init)
 ;;; init.el ends here
