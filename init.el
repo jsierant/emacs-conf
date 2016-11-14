@@ -239,8 +239,6 @@ Return a list of installed packages or nil for every skipped package."
 
 (require 'flycheck)
 
-(load "~/.emacs.d/helm-etags-plus/ctags-update.el")
-
 ;; == languages
 (load "~/.emacs.d/langs/python.el")
 (load "~/.emacs.d/langs/elisp.el")
