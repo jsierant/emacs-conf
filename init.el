@@ -20,7 +20,7 @@
 ;; line wrap disabled
 (setq-default truncate-lines 1)
 
-(set-frame-font "LiberationMono-14")
+(set-frame-font "LiberationMono-9")
 
 ;; packages
 (require 'package)
@@ -68,6 +68,7 @@ Return a list of installed packages or nil for every skipped package."
  'highlight-indent-guides
  'elisp-slime-nav
  'shelldoc
+ 'helm-make
  )
 
 ;; activate installed packages
@@ -108,12 +109,14 @@ Return a list of installed packages or nil for every skipped package."
       airline-utf-glyph-linenumber          #xe0a1)
 
 ;; compilation
-
+(require 'helm-make)
 (setq compilation-auto-jump-to-first-error t)
 (setq compilation-scroll-output t)
 ;; No prompt for command
 (setq compilation-read-command nil)
-(global-set-key (kbd "<f8>") 'compile)
+(global-set-key (kbd "<f8>") 'projectile-compile-project)
+(setq helm-make-list-target-method "qp")
+(global-set-key (kbd "<f7>") 'helm-make-projectile)
 
 ;; close window on successfull build
 (setq compilation-finish-functions
@@ -177,7 +180,7 @@ Return a list of installed packages or nil for every skipped package."
 
 
 (require 'projectile)
-(projectile-global-mode)
+(projectile-mode 1)
 (require 'helm-projectile)
 (helm-projectile-on)
 
@@ -185,7 +188,6 @@ Return a list of installed packages or nil for every skipped package."
 (setq yas-snippet-dirs '("~/.emacs.d/snippets/"))
 (yas-global-mode 1)
 (yas-reload-all)
-
 
 ;; git
 (require 'magit)
