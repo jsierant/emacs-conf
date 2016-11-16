@@ -52,7 +52,6 @@
 (defun ltags-update (&optional args)
   "Update tags - ARGS shall be empty."
   (interactive "P")
-  (message (mapconcat 'identity (ltags-create-update-opts ltags-lang ltags-lang-file ltags-exec-opts) " "))
   (defvar-local process (apply 'start-process
                 "tags update"
                 ltags-update-buffer-name
