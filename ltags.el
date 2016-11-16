@@ -35,6 +35,7 @@
 (defun ltags-create-update-opts(lang filename user-options)
   (defvar-local ltags-exec-base-opts
     (list
+     "--langmap=make:([Mm]akefile).conf([Mm]akefile).variables"
      (concat"--languages=" lang)
      "-f" filename
      "-R" "-e"
@@ -51,7 +52,7 @@
 (defun ltags-update (&optional args)
   "Update tags - ARGS shall be empty."
   (interactive "P")
-  (message "Updating tags for lang: %s" ltags-lang)
+  (message (mapconcat 'identity (ltags-create-update-opts ltags-lang ltags-lang-file ltags-exec-opts) " "))
   (defvar-local process (apply 'start-process
                 "tags update"
                 ltags-update-buffer-name
@@ -74,8 +75,8 @@
   (ltags-create-dir)
   (ltags-update)
   (message "lang tags file")
-  (setq tags-file-name ltags-lang-file)
-  (setq tags-table-list nil)
+  (setq tags-file-name nil)
+  (setq tags-table-list (list ltags-lang-file))
   )
 
 (provide 'ltags)

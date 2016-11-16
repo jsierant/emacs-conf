@@ -5,14 +5,14 @@
 
 (require 'company)
 
-(add-to-list 'auto-mode-alist '("Makefile\\..+\\'" . makefile-gmake-mode))
+(add-to-list 'auto-mode-alist '("Makefile\..+" . makefile-gmake-mode))
 
 (load "~/.emacs.d/ltags.el")
 
 (defun makefile/mode-setup()
   "Setup function for python mode"
    (set (make-local-variable 'company-backends)
-        '((company-capf
+        '((company-etags
            company-yasnippet
            company-files
            company-dabbrev
