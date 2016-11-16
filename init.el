@@ -186,6 +186,8 @@ Return a list of installed packages or nil for every skipped package."
 
 (require 'projectile)
 (projectile-mode 1)
+(setq projectile-mode-line '(:eval (format " pro[%s]" (projectile-project-name))))
+
 (require 'helm-projectile)
 (helm-projectile-on)
 
@@ -239,10 +241,6 @@ Return a list of installed packages or nil for every skipped package."
 (require 'company-files)
 (define-key global-map (kbd "C-c f") 'company-files)
 
-
-(require 'company-shell)
-
-
 (define-key company-active-map (kbd "C-e") #'company-other-backend)
 
 
@@ -252,6 +250,7 @@ Return a list of installed packages or nil for every skipped package."
 (load "~/.emacs.d/langs/python.el")
 (load "~/.emacs.d/langs/elisp.el")
 (load "~/.emacs.d/langs/shell.el")
+(load "~/.emacs.d/langs/makefile.el")
 
 ;; window split and navigation
 (defadvice split-window (after move-point-to-new-window activate)
@@ -314,6 +313,7 @@ Return a list of installed packages or nil for every skipped package."
 
 
 (load "~/.emacs.d/package-selected-packages.el")
+(setq debug-on-error t)
 
 (provide 'init)
 ;;; init.el ends here
