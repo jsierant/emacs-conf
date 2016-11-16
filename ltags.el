@@ -3,13 +3,6 @@
 ;;; Commentary:
 
 ;;; Code:
-(require 'projectile)
-
-(defgroup ltags nil
-  "LTags group"
-  :prefix "ltags-"
-  :group 'etags)
-
 (defun ltags-dir-name ()
   "Return project tags dir."
   (concat default-directory ".tags/")
@@ -31,7 +24,7 @@
 (defvar-local ltags-exec "ctags")
 
 (defvar-local ltags-lang nil "Tags language for mode.")
-(defcustom ltags-lang-file nil "Tags language file." :type 'string :group 'ltags)
+(defvar-local ltags-lang-file nil "Tags language file.")
 (defvar-local ltags-exec-opts nil "ctags options.")
 
 (defun ltags-add-exclude-pattern (pattern)
@@ -58,10 +51,11 @@
 (defun ltags-update (&optional args)
   "Update tags - ARGS shall be empty."
   (interactive "P")
+  (message "Updating tags for lang: %s" ltags-lang)
   (defvar-local process (apply 'start-process
                 "tags update"
                 ltags-update-buffer-name
-                "ctags"
+                ltags-exec
                 (ltags-create-update-opts ltags-lang ltags-lang-file ltags-exec-opts)
                 ))
   (set-process-sentinel
@@ -72,18 +66,16 @@
         (message (concat "Tags updated for language: " ltags-lang " (stored in: " ltags-lang-file ")"))
         )))
   )
-
 ;;;###autoload
 (defun ltags-setup (lang)
   "Setup tags for mode with given LANG."
   (setq-local ltags-lang lang)
-  (setq ltags-lang-file (ltags-file-name lang))
+  (setq-local ltags-lang-file (ltags-file-name lang))
   (ltags-create-dir)
   (ltags-update)
-  (setq-default tags-file-name ltags-lang-file)
-; (setq helm-etags-tag-file-name ltags-lang-file)
+  (message "lang tags file")
+  (setq tags-file-name ltags-lang-file)
   (setq tags-table-list nil)
-;  (visit-tags-table ltags-lang-file)
   )
 
 (provide 'ltags)

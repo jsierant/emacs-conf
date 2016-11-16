@@ -20,7 +20,7 @@
 ;; line wrap disabled
 (setq-default truncate-lines 1)
 
-(set-frame-font "LiberationMono-14")
+(set-frame-font "LiberationMono-9")
 
 ;; packages
 (require 'package)
@@ -274,8 +274,8 @@ Return a list of installed packages or nil for every skipped package."
 (add-hook 'after-change-major-mode-hook 'remove-scratch-buffer)
 
 ;; Removes *messages* from the buffer.
-;;(setq-default message-log-max nil)
-;;(kill-buffer "*Messages*")
+(setq-default message-log-max nil)
+(kill-buffer "*Messages*")
 
 ;; Removes *Completions* from buffer after you've opened a file.
 (add-hook 'minibuffer-exit-hook
@@ -292,5 +292,6 @@ Return a list of installed packages or nil for every skipped package."
 
 (load "~/.emacs.d/package-selected-packages.el")
 (setq debug-on-error t)
+
 (provide 'init)
 ;;; init.el ends here
