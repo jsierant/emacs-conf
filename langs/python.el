@@ -1,3 +1,9 @@
+;;; package --- Python editing support for EMACS
+
+;;; Commentary:
+
+;;; Code:
+
 
 (require 'anaconda-mode)
 (require 'company-anaconda)
@@ -34,3 +40,6 @@
   "g d" 'anaconda-mode-find-definitions
   "f r" 'anaconda-mode-find-references
   "g b" 'anaconda-mode-go-back)
+
+(provide 'python)
+;;; python.el ends here

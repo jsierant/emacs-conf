@@ -77,6 +77,9 @@ Return a list of installed packages or nil for every skipped package."
  'cmake-font-lock
  'rtags
  'cmake-ide
+ 'flyspell
+ 'helm-flyspell
+ 'disaster
  )
 
 ;; activate installed packages
@@ -223,7 +226,7 @@ Return a list of installed packages or nil for every skipped package."
  '(git-gutter:update-interval 2)
  '(package-selected-packages
    (quote
-    (cmake-ide shelldoc rtags python-docstring magit jedi icicles highlight-indent-guides highlight-chars helm-projectile helm-make git-gutter ggtags flymake-shell flycheck-pyflakes fill-column-indicator evil-matchit evil-leader elpy elisp-slime-nav darktooth-theme company-shell company-quickhelp company-jedi company-anaconda column-marker cmake-font-lock bash-completion airline-themes))))
+    (shelldoc rtags python-docstring magit jedi icicles highlight-indent-guides highlight-chars helm-projectile helm-make git-gutter ggtags flymake-shell flycheck-pyflakes fill-column-indicator evil-matchit evil-leader elpy elisp-slime-nav darktooth-theme company-shell company-quickhelp company-jedi company-anaconda column-marker cmake-ide cmake-font-lock bash-completion airline-themes))))
 (add-hook 'after-save-hook 'git-gutter:update-all-windows)
 
 (set-face-foreground 'git-gutter:modified "purple") ;; background color
@@ -258,6 +261,9 @@ Return a list of installed packages or nil for every skipped package."
 
 
 (require 'flycheck)
+(require 'flyspell)
+(setq flyspell-issue-welcome-flag nil)
+(require 'helm-flyspell)
 
 ;; == languages
 (load "~/.emacs.d/langs/python.el")
@@ -336,3 +342,9 @@ Return a list of installed packages or nil for every skipped package."
 
 (provide 'init)
 ;;; init.el ends here
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
