@@ -75,6 +75,8 @@ Return a list of installed packages or nil for every skipped package."
  'helm-make
  'cmake-mode
  'cmake-font-lock
+ 'rtags
+ 'cmake-ide
  )
 
 ;; activate installed packages
@@ -211,11 +213,17 @@ Return a list of installed packages or nil for every skipped package."
 (global-git-gutter-mode t)
 
 (custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  '(git-gutter:added-sign "│")
  '(git-gutter:deleted-sign "│")
  '(git-gutter:modified-sign "│")
  '(git-gutter:update-interval 2)
- )
+ '(package-selected-packages
+   (quote
+    (cmake-ide shelldoc rtags python-docstring magit jedi icicles highlight-indent-guides highlight-chars helm-projectile helm-make git-gutter ggtags flymake-shell flycheck-pyflakes fill-column-indicator evil-matchit evil-leader elpy elisp-slime-nav darktooth-theme company-shell company-quickhelp company-jedi company-anaconda column-marker cmake-font-lock bash-completion airline-themes))))
 (add-hook 'after-save-hook 'git-gutter:update-all-windows)
 
 (set-face-foreground 'git-gutter:modified "purple") ;; background color
@@ -257,6 +265,7 @@ Return a list of installed packages or nil for every skipped package."
 (load "~/.emacs.d/langs/shell.el")
 (load "~/.emacs.d/langs/makefile.el")
 (load "~/.emacs.d/langs/cmake.el")
+(load "~/.emacs.d/langs/cpp.el")
 
 ;; window split and navigation
 (defadvice split-window (after move-point-to-new-window activate)
@@ -319,6 +328,11 @@ Return a list of installed packages or nil for every skipped package."
 
 
 (setq debug-on-error t)
+
+(require 'rtags)
+(require 'cmake-ide)
+(cmake-ide-setup)
+(setq cmake-ide-build-dir (concat default-directory "/build"))
 
 (provide 'init)
 ;;; init.el ends here
