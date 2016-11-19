@@ -102,6 +102,8 @@ Return a list of installed packages or nil for every skipped package."
 
 (evil-leader/set-leader ",")
 
+(load "~/.emacs.d/evil-noautochdir/evil-noautochdir.el")
+
 (require 'evil)
 (evil-mode 1)
 

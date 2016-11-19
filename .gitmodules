@@ -1,3 +1,6 @@
 [submodule "snippets"]
 	path = snippets
 	url = https://jsierant@github.com/jsierant/yasnippet-snippets.git
+[submodule "evil-noautochdir"]
+	path = evil-noautochdir
+	url = https://github.com/gbarta/evil-noautochdir.git
