@@ -80,6 +80,7 @@ Return a list of installed packages or nil for every skipped package."
  'flyspell
  'helm-flyspell
  'disaster
+ 'neotree
  )
 
 ;; activate installed packages
@@ -216,17 +217,11 @@ Return a list of installed packages or nil for every skipped package."
 (global-git-gutter-mode t)
 
 (custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
  '(git-gutter:added-sign "│")
  '(git-gutter:deleted-sign "│")
  '(git-gutter:modified-sign "│")
  '(git-gutter:update-interval 2)
- '(package-selected-packages
-   (quote
-    (shelldoc rtags python-docstring magit jedi icicles highlight-indent-guides highlight-chars helm-projectile helm-make git-gutter ggtags flymake-shell flycheck-pyflakes fill-column-indicator evil-matchit evil-leader elpy elisp-slime-nav darktooth-theme company-shell company-quickhelp company-jedi company-anaconda column-marker cmake-ide cmake-font-lock bash-completion airline-themes))))
+ )
 (add-hook 'after-save-hook 'git-gutter:update-all-windows)
 
 (set-face-foreground 'git-gutter:modified "purple") ;; background color
@@ -340,11 +335,29 @@ Return a list of installed packages or nil for every skipped package."
 (cmake-ide-setup)
 (setq cmake-ide-build-dir (concat default-directory "/build"))
 
+
+(require 'neotree)
+(defun neotree-project-dir ()
+   "Open NeoTree using the git root."
+   (interactive)
+   (let ((project-dir (projectile-project-root))
+         (file-name (buffer-file-name)))
+     (if project-dir
+         (if (neotree-toggle)
+             (progn
+               (neotree-dir project-dir)
+               (neotree-find file-name)))
+       (message "Could not find git project root."))))
+
+(global-set-key (kbd "<f6>") 'neotree-project-dir)
+
+(add-hook 'neotree-mode-hook
+            (lambda ()
+              (define-key evil-normal-state-local-map (kbd "TAB") 'neotree-enter)
+              (define-key evil-normal-state-local-map (kbd "SPC") 'neotree-enter)
+              (define-key evil-normal-state-local-map (kbd "q") 'neotree-hide)
+              (define-key evil-normal-state-local-map (kbd "RET") 'neotree-enter)))
+
+
 (provide 'init)
 ;;; init.el ends here
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
