@@ -81,6 +81,10 @@ Return a list of installed packages or nil for every skipped package."
  'helm-flyspell
  'disaster
  'neotree
+ 'autopair
+ 'color-identifiers-mode
+ 'rainbow-delimiters
+ 'highlight-symbol
  )
 
 ;; activate installed packages
@@ -96,6 +100,18 @@ Return a list of installed packages or nil for every skipped package."
 (setq-default whitespace-line-column 120)
 (setq-default whitespace-style '(face lines-tail trailing spaces tabs))
 (add-hook 'prog-mode-hook 'whitespace-mode)
+
+(require 'autopair)
+(autopair-global-mode)
+
+(setq make-backup-files nil)
+
+(require 'color-identifiers-mode)
+(global-color-identifiers-mode)
+(require 'rainbow-delimiters)
+(add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
+
+(require 'highlight-symbol)
 
 (require 'evil-leader)
 (global-evil-leader-mode)
@@ -219,11 +235,17 @@ Return a list of installed packages or nil for every skipped package."
 (global-git-gutter-mode t)
 
 (custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  '(git-gutter:added-sign "│")
  '(git-gutter:deleted-sign "│")
  '(git-gutter:modified-sign "│")
  '(git-gutter:update-interval 2)
- )
+ '(package-selected-packages
+   (quote
+    (rainbow-delimiters color-identifiers-mode shelldoc rtags python-docstring project-explorer neotree magit jedi icicles highlight-indent-guides highlight-chars helm-projectile helm-make helm-flyspell git-gutter ggtags flymake-shell flycheck-pyflakes fill-column-indicator evil-matchit evil-leader elpy elisp-slime-nav disaster darktooth-theme company-shell company-quickhelp company-jedi company-anaconda column-marker cmake-ide cmake-font-lock bash-completion autopair airline-themes))))
 (add-hook 'after-save-hook 'git-gutter:update-all-windows)
 
 (set-face-foreground 'git-gutter:modified "purple") ;; background color
@@ -284,6 +306,7 @@ Return a list of installed packages or nil for every skipped package."
   "f w l" 'evil-window-left
   "f w b" 'evil-window-down
   "f w a" 'evil-window-up
+  "h w" 'highlight-symbol
   )
 
 (define-key evil-normal-state-map " " 'helm-mini)
@@ -299,8 +322,8 @@ Return a list of installed packages or nil for every skipped package."
 (add-hook 'after-change-major-mode-hook 'remove-scratch-buffer)
 
 ;; Removes *messages* from the buffer.
-;(setq-default message-log-max nil)
-;(kill-buffer "*Messages*")
+(setq-default message-log-max nil)
+(kill-buffer "*Messages*")
 
 ;; Removes *Completions* from buffer after you've opened a file.
 (add-hook 'minibuffer-exit-hook
@@ -363,3 +386,9 @@ Return a list of installed packages or nil for every skipped package."
 
 (provide 'init)
 ;;; init.el ends here
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
