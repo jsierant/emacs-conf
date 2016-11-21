@@ -21,7 +21,7 @@
 ;; line wrap disabled
 (setq-default truncate-lines 1)
 
-(set-frame-font "LiberationMono-9")
+(set-frame-font "LiberationMono-11")
 
 (modify-syntax-entry ?_ "w" (standard-syntax-table))
 (modify-syntax-entry ?- "w" (standard-syntax-table))
@@ -76,7 +76,6 @@ Return a list of installed packages or nil for every skipped package."
  'cmake-mode
  'cmake-font-lock
  'rtags
- 'cmake-ide
  'flyspell
  'helm-flyspell
  'disaster
@@ -227,7 +226,7 @@ Return a list of installed packages or nil for every skipped package."
 
 ;; git
 (require 'magit)
-
+1
 (global-set-key (kbd "C-x g s") 'magit-status)
 (global-set-key (kbd "C-x g c i") 'magit-commit)
 
@@ -278,6 +277,8 @@ Return a list of installed packages or nil for every skipped package."
 (setq flyspell-issue-welcome-flag nil)
 (require 'helm-flyspell)
 
+(require 'rtags)
+
 ;; == languages
 (load "~/.emacs.d/langs/python.el")
 (load "~/.emacs.d/langs/elisp.el")
@@ -316,8 +317,8 @@ Return a list of installed packages or nil for every skipped package."
 (add-hook 'after-change-major-mode-hook 'remove-scratch-buffer)
 
 ;; Removes *messages* from the buffer.
-(setq-default message-log-max nil)
-(kill-buffer "*Messages*")
+;(setq-default message-log-max nil)
+;(kill-buffer "*Messages*")
 
 ;; Removes *Completions* from buffer after you've opened a file.
 (add-hook 'minibuffer-exit-hook
@@ -349,12 +350,6 @@ Return a list of installed packages or nil for every skipped package."
 
 (setq debug-on-error t)
 (setq enable-local-eval t)
-
-(require 'rtags)
-(require 'cmake-ide)
-(cmake-ide-setup)
-(setq cmake-ide-build-dir (concat default-directory "/build"))
-
 
 (require 'neotree)
 (defun neotree-project-dir ()
