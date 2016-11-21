@@ -63,7 +63,7 @@
   "p p" 'rtags-preprocess-file
   "i f" 'rtags-get-include-file-for-symbol
   "g a" 'disaster
-  "r r" 'clang-format-region
+  "r c" 'clang-format-region
   )
 
 (define-key c++-mode-map (kbd "C-c d") 'rtags-print-symbol-info)

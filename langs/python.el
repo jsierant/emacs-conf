@@ -39,7 +39,8 @@
   "s d" 'anaconda-mode-show-doc
   "g d" 'anaconda-mode-find-definitions
   "f r" 'anaconda-mode-find-references
-  "g b" 'anaconda-mode-go-back)
+  "g b" 'anaconda-mode-go-back
+  "r c" 'py-autopep8-buffer)
 
 (provide 'python)
 ;;; python.el ends here

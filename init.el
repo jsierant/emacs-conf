@@ -21,7 +21,7 @@
 ;; line wrap disabled
 (setq-default truncate-lines 1)
 
-(set-frame-font "LiberationMono-11")
+(set-frame-font "LiberationMono-9")
 
 (modify-syntax-entry ?_ "w" (standard-syntax-table))
 (modify-syntax-entry ?- "w" (standard-syntax-table))
@@ -84,6 +84,7 @@ Return a list of installed packages or nil for every skipped package."
  'color-identifiers-mode
  'rainbow-delimiters
  'highlight-symbol
+ 'py-autopep8
  )
 
 ;; activate installed packages
@@ -234,11 +235,17 @@ Return a list of installed packages or nil for every skipped package."
 (global-git-gutter-mode t)
 
 (custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  '(git-gutter:added-sign "│")
  '(git-gutter:deleted-sign "│")
  '(git-gutter:modified-sign "│")
  '(git-gutter:update-interval 2)
- )
+ '(package-selected-packages
+   (quote
+    (py-autopep8 xpm yasnippet shelldoc rtags rainbow-delimiters neotree magit highlight-symbol highlight-indent-guides helm-projectile helm-make helm-flyspell git-gutter flycheck-pyflakes evil-matchit evil-leader elisp-slime-nav disaster darktooth-theme company-shell company-quickhelp company-anaconda color-identifiers-mode cmake-ide cmake-font-lock autopair airline-themes))))
 (add-hook 'after-save-hook 'git-gutter:update-all-windows)
 
 (set-face-foreground 'git-gutter:modified "purple") ;; background color
@@ -376,3 +383,9 @@ Return a list of installed packages or nil for every skipped package."
 (load "~/.emacs.d/package-selected-packages.el")
 (provide 'init)
 ;;; init.el ends here
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
