@@ -75,6 +75,16 @@ Return a list of installed packages or nil for every skipped package."
  'helm-make
  'cmake-mode
  'cmake-font-lock
+ 'rtags
+ 'cmake-ide
+ 'flyspell
+ 'helm-flyspell
+ 'disaster
+ 'neotree
+ 'autopair
+ 'color-identifiers-mode
+ 'rainbow-delimiters
+ 'highlight-symbol
  )
 
 ;; activate installed packages
@@ -91,10 +101,24 @@ Return a list of installed packages or nil for every skipped package."
 (setq-default whitespace-style '(face lines-tail trailing spaces tabs))
 (add-hook 'prog-mode-hook 'whitespace-mode)
 
+(require 'autopair)
+(autopair-global-mode)
+
+(setq make-backup-files nil)
+
+(require 'color-identifiers-mode)
+(global-color-identifiers-mode)
+(require 'rainbow-delimiters)
+(add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
+
+(require 'highlight-symbol)
+
 (require 'evil-leader)
 (global-evil-leader-mode)
 
 (evil-leader/set-leader ",")
+
+(load "~/.emacs.d/evil-noautochdir/evil-noautochdir.el")
 
 (require 'evil)
 (evil-mode 1)
@@ -250,6 +274,9 @@ Return a list of installed packages or nil for every skipped package."
 
 
 (require 'flycheck)
+(require 'flyspell)
+(setq flyspell-issue-welcome-flag nil)
+(require 'helm-flyspell)
 
 ;; == languages
 (load "~/.emacs.d/langs/python.el")
@@ -257,6 +284,7 @@ Return a list of installed packages or nil for every skipped package."
 (load "~/.emacs.d/langs/shell.el")
 (load "~/.emacs.d/langs/makefile.el")
 (load "~/.emacs.d/langs/cmake.el")
+(load "~/.emacs.d/langs/cpp.el")
 
 ;; window split and navigation
 (defadvice split-window (after move-point-to-new-window activate)
@@ -272,6 +300,7 @@ Return a list of installed packages or nil for every skipped package."
   "f w l" 'evil-window-left
   "f w b" 'evil-window-down
   "f w a" 'evil-window-up
+  "h w" 'highlight-symbol
   )
 
 (define-key evil-normal-state-map " " 'helm-mini)
@@ -287,8 +316,8 @@ Return a list of installed packages or nil for every skipped package."
 (add-hook 'after-change-major-mode-hook 'remove-scratch-buffer)
 
 ;; Removes *messages* from the buffer.
-;(setq-default message-log-max nil)
-;(kill-buffer "*Messages*")
+(setq-default message-log-max nil)
+(kill-buffer "*Messages*")
 
 ;; Removes *Completions* from buffer after you've opened a file.
 (add-hook 'minibuffer-exit-hook
@@ -321,5 +350,34 @@ Return a list of installed packages or nil for every skipped package."
 (setq debug-on-error t)
 (setq enable-local-eval t)
 
+(require 'rtags)
+(require 'cmake-ide)
+(cmake-ide-setup)
+(setq cmake-ide-build-dir (concat default-directory "/build"))
+
+
+(require 'neotree)
+(defun neotree-project-dir ()
+   "Open NeoTree using the git root."
+   (interactive)
+   (let ((project-dir (projectile-project-root))
+         (file-name (buffer-file-name)))
+     (if project-dir
+         (if (neotree-toggle)
+             (progn
+               (neotree-dir project-dir)
+               (neotree-find file-name)))
+       (message "Could not find git project root."))))
+
+(global-set-key (kbd "<f6>") 'neotree-project-dir)
+
+(add-hook 'neotree-mode-hook
+            (lambda ()
+              (define-key evil-normal-state-local-map (kbd "TAB") 'neotree-enter)
+              (define-key evil-normal-state-local-map (kbd "SPC") 'neotree-enter)
+              (define-key evil-normal-state-local-map (kbd "q") 'neotree-hide)
+              (define-key evil-normal-state-local-map (kbd "RET") 'neotree-enter)))
+
+(load "~/.emacs.d/package-selected-packages.el")
 (provide 'init)
 ;;; init.el ends here
