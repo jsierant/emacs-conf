@@ -319,6 +319,7 @@ Return a list of installed packages or nil for every skipped package."
 
 
 (setq debug-on-error t)
+(setq enable-local-eval t)
 
 (provide 'init)
 ;;; init.el ends here
