@@ -21,7 +21,7 @@
 ;; line wrap disabled
 (setq-default truncate-lines 1)
 
-(set-frame-font "LiberationMono-9")
+
 
 (modify-syntax-entry ?_ "w" (standard-syntax-table))
 (modify-syntax-entry ?- "w" (standard-syntax-table))
@@ -90,7 +90,21 @@ Return a list of installed packages or nil for every skipped package."
 ;; activate installed packages
 (package-initialize)
 
+(defun inittheme ()
+  (interactive "P")
+ (set-frame-font "LiberationMono-9")
+ (load-theme 'darktooth t)
+  )
+
 (require 'darktooth-theme)
+(if (daemonp)
+(add-hook 'after-make-frame-functions
+          '(lambda (f)
+             (with-selected-frame f
+               (when (window-system f)
+                 (inittheme)))))
+ (inittheme))
+
 
 (require 'highlight-indent-guides)
 (setq highlight-indent-guides-method 'character)
@@ -234,11 +248,17 @@ Return a list of installed packages or nil for every skipped package."
 (global-git-gutter-mode t)
 
 (custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   (quote
+    ("0eea76fe89061a7f6da195f4a976c0b91150de987b942fac2dd10992aea33833" default)))
  '(git-gutter:added-sign "│")
  '(git-gutter:deleted-sign "│")
  '(git-gutter:modified-sign "│")
- '(git-gutter:update-interval 2)
- )
+ '(git-gutter:update-interval 2))
 (add-hook 'after-save-hook 'git-gutter:update-all-windows)
 
 (set-face-foreground 'git-gutter:modified "purple") ;; background color
@@ -379,3 +399,9 @@ Return a list of installed packages or nil for every skipped package."
 (load "~/.emacs.d/package-selected-packages.el")
 (provide 'init)
 ;;; init.el ends here
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
