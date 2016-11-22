@@ -21,8 +21,6 @@
 ;; line wrap disabled
 (setq-default truncate-lines 1)
 
-
-
 (modify-syntax-entry ?_ "w" (standard-syntax-table))
 (modify-syntax-entry ?- "w" (standard-syntax-table))
 
@@ -247,13 +245,10 @@ Return a list of installed packages or nil for every skipped package."
 (require 'git-gutter)
 (global-git-gutter-mode t)
 
-(custom-set-variables
- '(git-gutter:added-sign "│")
- '(git-gutter:deleted-sign "│")
- '(git-gutter:modified-sign "│")
- '(git-gutter:update-interval 2)
- )
-(add-hook 'after-save-hook 'git-gutter:update-all-windows)
+(setq git-gutter:added-sign "│")
+(setq git-gutter:deleted-sign "│")
+(setq git-gutter:modified-sign "│")
+(setq git-gutter:update-interval 2)
 
 (set-face-foreground 'git-gutter:modified "purple") ;; background color
 (set-face-foreground 'git-gutter:added "green")
