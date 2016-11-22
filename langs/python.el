@@ -24,12 +24,7 @@
 
   (highlight-indent-guides-mode)
 
-
-  (setq-local elpy-modules '(elpy-module-sane-defaults
-                             elpy-module-eldoc
-                             elpy-module-highlight-indentation
-                             elpy-module-pyvenv))
-  (elpy-enable)
+  (elpy-mode)
 
   (local-set-key (kbd "C-c d") 'elpy-doc)
 
@@ -55,6 +50,14 @@
   'normal python-mode-map
   (kbd "K") 'elpy-nav-backward-block
   (kbd "J") 'elpy-nav-forward-block)
+
+
+(remove-hook 'elpy-modules 'elpy-module-flymake)
+(remove-hook 'elpy-modules 'elpy-module-company)
+(remove-hook 'elpy-modules 'elpy-module-yasnippet)
+(remove-hook 'elpy-modules 'elpy-module-highlight-indentation)
+
+(elpy-enable)
 
 (provide 'python)
 ;;; python.el ends here
