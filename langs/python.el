@@ -28,6 +28,8 @@
 
   (local-set-key (kbd "C-c d") 'elpy-doc)
 
+  (setq-local completion-styles "substring")
+
   (company-mode)
   (company-quickhelp-mode 1)
 )

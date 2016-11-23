@@ -245,14 +245,17 @@ Return a list of installed packages or nil for every skipped package."
 (require 'git-gutter)
 (global-git-gutter-mode t)
 
+(setq git-gutter:hide-gutter t)
 (setq git-gutter:added-sign "│")
 (setq git-gutter:deleted-sign "│")
 (setq git-gutter:modified-sign "│")
 (setq git-gutter:update-interval 2)
 
-(set-face-foreground 'git-gutter:modified "purple") ;; background color
+(set-face-foreground 'git-gutter:modified "purple")
 (set-face-foreground 'git-gutter:added "green")
 (set-face-foreground 'git-gutter:deleted "red")
+
+(add-hook 'first-change-hook 'git-gutter:update-all-windows)
 
 ;; completion
 (require 'company)
