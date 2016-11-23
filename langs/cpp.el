@@ -7,7 +7,6 @@
 (require 'company-rtags)
 (require 'flycheck-rtags)
 (require 'rtags-helm)
-(require 'cmake-ide)
 (require 'disaster)
 (load "/usr/share/clang/clang-format.el")
 
