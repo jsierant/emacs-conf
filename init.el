@@ -60,7 +60,7 @@ Return a list of installed packages or nil for every skipped package."
  'helm-projectile
  'yasnippet
  'magit
- 'git-gutter
+ 'git-gutter+
  'company
  'company-quickhelp
  'company-shell
@@ -188,8 +188,23 @@ Return a list of installed packages or nil for every skipped package."
       (progn
         (linum-mode 1)
         (goto-line (read-number "Goto line: ")))
-      (linum-mode -1)))
+      (linum-mode -1)
+      (git-gutter+-mode)
+      ))
 
+
+(defun show-lines ()
+  "Show line numbers"
+  (interactive)
+  (if linum-mode
+      (progn
+        (linum-mode -1)
+        (git-gutter+-mode)
+        )
+        (linum-mode 1)
+    )
+  )
+(global-set-key (kbd "C-l") 'show-lines)
 
 ;;Press “%” to jump between matched tags in Emacs. For example, in HTML “<div>” and “</div>” are a pair of tags.
 (require 'evil-matchit)
@@ -242,20 +257,22 @@ Return a list of installed packages or nil for every skipped package."
 (global-set-key (kbd "C-x g s") 'magit-status)
 (global-set-key (kbd "C-x g c i") 'magit-commit)
 
-(require 'git-gutter)
-(global-git-gutter-mode t)
+(require 'git-gutter+)
 
-(setq git-gutter:hide-gutter t)
-(setq git-gutter:added-sign "│")
-(setq git-gutter:deleted-sign "│")
-(setq git-gutter:modified-sign "│")
-(setq git-gutter:update-interval 2)
 
-(set-face-foreground 'git-gutter:modified "purple")
-(set-face-foreground 'git-gutter:added "green")
-(set-face-foreground 'git-gutter:deleted "red")
+(setq git-gutter+-modified-sign "│")
+(setq git-gutter+-added-sign "│")
+(setq git-gutter+-deleted-sign "│")
 
-(add-hook 'first-change-hook 'git-gutter:update-all-windows)
+(global-git-gutter+-mode)
+(setq git-gutter+-hide-gutter t)
+
+(set-face-background 'git-gutter+-modified nil)
+(set-face-background 'git-gutter+-added nil)
+(set-face-background 'git-gutter+-deleted nil)
+(set-face-foreground 'git-gutter+-modified "purple")
+(set-face-foreground 'git-gutter+-added    "green")
+(set-face-foreground 'git-gutter+-deleted  "red")
 
 ;; completion
 (require 'company)

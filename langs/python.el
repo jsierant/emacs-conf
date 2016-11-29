@@ -25,6 +25,7 @@
   (highlight-indent-guides-mode)
 
   (elpy-mode)
+  (eldoc-mode)
 
   (local-set-key (kbd "C-c d") 'elpy-doc)
 
@@ -43,15 +44,21 @@
           (switch-to-buffer "*Python Doc*")
           (kill-buffer-and-window))
 
-  "g d" 'elpy-goto-definition
+  "d"   'elpy-goto-definition
+  "w d" 'elpy-goto-definition-other-window
+  "b"   'pop-tag-mark
   "f r" 'elpy-rgrep-symbol
-  "g b" 'pop-tag-mark
-  "r c" 'py-autopep8-buffer)
+  "e s" 'elpy-multiedit-python-symbol-at-point
+  "f c" 'elpy-format-code
+  )
 
 (evil-define-key
   'normal python-mode-map
   (kbd "K") 'elpy-nav-backward-block
-  (kbd "J") 'elpy-nav-forward-block)
+  (kbd "J") 'elpy-nav-forward-block
+  (kbd "C-j") 'elpy-nav-move-line-or-region-dow
+  (kbd "C-k") 'elpy-nav-move-line-or-region-up
+  )
 
 
 (remove-hook 'elpy-modules 'elpy-module-flymake)
