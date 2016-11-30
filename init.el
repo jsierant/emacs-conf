@@ -406,6 +406,30 @@ Return a list of installed packages or nil for every skipped package."
 (global-unset-key (kbd "S-k"))
 (global-unset-key (kbd "S-j"))
 
+(global-auto-revert-mode nil)
+
+(defun modeline-set-lighter (minor-mode lighter)
+  (when (assq minor-mode minor-mode-alist)
+    (setcar (cdr (assq minor-mode minor-mode-alist)) lighter)))
+
+(defun modeline-remove-lighter (minor-mode)
+  (modeline-set-lighter minor-mode ""))
+
+
+(modeline-remove-lighter 'helm-mode)
+(modeline-remove-lighter 'git-gutter+-mode)
+(modeline-remove-lighter 'company-mode)
+(modeline-remove-lighter 'color-identifiers-mode)
+(modeline-remove-lighter 'undo-tree-mode)
+(modeline-remove-lighter 'elpy-mode)
+(modeline-remove-lighter 'flycheck-mode)
+(modeline-remove-lighter 'autopair-mode)
+(modeline-remove-lighter 'auto-revert-mode)
+(modeline-remove-lighter 'yas-minor-mode)
+(modeline-remove-lighter 'whitespace-mode)
+(modeline-remove-lighter 'elisp-slime-nav-mode)
+
+
 (load "~/.emacs.d/package-selected-packages.el")
 (provide 'init)
 ;;; init.el ends here
