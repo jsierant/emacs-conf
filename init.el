@@ -83,6 +83,8 @@ Return a list of installed packages or nil for every skipped package."
  'highlight-symbol
  'elpy
  'company-jedi
+ 'auctex
+ 'company-auctex
  )
 
 ;; activate installed packages
@@ -315,6 +317,8 @@ Return a list of installed packages or nil for every skipped package."
 (load "~/.emacs.d/langs/makefile.el")
 (load "~/.emacs.d/langs/cmake.el")
 (load "~/.emacs.d/langs/cpp.el")
+(load "~/.emacs.d/langs/latex.el")
+
 
 ;; window split and navigation
 (defadvice split-window (after move-point-to-new-window activate)
