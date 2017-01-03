@@ -301,7 +301,9 @@ Return a list of installed packages or nil for every skipped package."
 (require 'company-files)
 (define-key global-map (kbd "C-c f") 'company-files)
 
-(define-key company-active-map (kbd "C-e") #'company-other-backend)
+(define-key company-active-map (kbd "C-e") #'company-)
+(define-key company-active-map (kbd "C-j") #'company-select-next)
+(define-key company-active-map (kbd "C-k") #'company-select-previous)
 
 
 (require 'flycheck)
@@ -407,6 +409,8 @@ Return a list of installed packages or nil for every skipped package."
               (define-key evil-normal-state-local-map (kbd "SPC") 'neotree-enter)
               (define-key evil-normal-state-local-map (kbd "q") 'neotree-hide)
               (define-key evil-normal-state-local-map (kbd "RET") 'neotree-enter)))
+
+(setq neo-window-width 40)
 
 (global-unset-key (kbd "S-k"))
 (global-unset-key (kbd "S-j"))
