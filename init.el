@@ -85,6 +85,7 @@ Return a list of installed packages or nil for every skipped package."
  'company-jedi
  'auctex
  'company-auctex
+ 'column-marker
  )
 
 ;; activate installed packages
@@ -115,8 +116,7 @@ Return a list of installed packages or nil for every skipped package."
 (set-face-foreground 'highlight-indent-guides-character-face "darkgray")
 
 (require 'whitespace)
-(setq-default whitespace-line-column 120)
-(setq-default whitespace-style '(face lines-tail trailing spaces tabs))
+(setq-default whitespace-style '(face trailing spaces tabs))
 (add-hook 'prog-mode-hook 'whitespace-mode)
 
 (require 'autopair)
@@ -187,7 +187,6 @@ Return a list of installed packages or nil for every skipped package."
 (require 'linum)
 (setq linum-format " %3d\u2502")
 (global-set-key (kbd "C-g") 'goto-line-with-feedback)
-(set-face-attribute 'linum nil :background margin-background-color)
 
 (defun goto-line-with-feedback ()
   "Show line numbers temporarily, while prompting for the line number input"
@@ -271,18 +270,18 @@ Return a list of installed packages or nil for every skipped package."
 (setq git-gutter+-added-sign "│")
 (setq git-gutter+-deleted-sign "│")
 
-(global-git-gutter+-mode)
+(add-hook 'prog-mode-hook 'git-gutter+-mode)
 (setq git-gutter+-hide-gutter t)
 
-(set-face-background 'git-gutter+-modified margin-background-color)
-(set-face-background 'git-gutter+-added margin-background-color)
-(set-face-background 'git-gutter+-deleted margin-background-color)
+(defvar background-color (face-attribute 'default :background))
+
+(set-face-background 'git-gutter+-modified background-color)
+(set-face-background 'git-gutter+-added background-color)
+(set-face-background 'git-gutter+-deleted background-color)
 (set-face-foreground 'git-gutter+-modified "purple")
 (set-face-foreground 'git-gutter+-added    "green")
 (set-face-foreground 'git-gutter+-deleted  "red")
 
-(setq git-gutter+-unchanged-sign " ")
-(set-face-background 'git-gutter+-unchanged margin-background-color)
 
 ;; completion
 (require 'company)
@@ -447,6 +446,17 @@ Return a list of installed packages or nil for every skipped package."
 (modeline-remove-lighter 'elisp-slime-nav-mode)
 
 
-(load "~/.emacs.d/package-selected-packages.el")
+(require 'column-marker)
+(set-face-background 'column-marker-1 "orange")
+(set-face-background 'column-marker-2 "red")
+(set-face-foreground 'column-marker-1 "black")
+(set-face-foreground 'column-marker-2 "black")
+
+(add-hook 'prog-mode-hook
+          (lambda () (interactive)
+            (column-marker-1 80)
+            (column-marker-2 120)
+            ))
+
 (provide 'init)
 ;;; init.el ends here
