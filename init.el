@@ -90,10 +90,13 @@ Return a list of installed packages or nil for every skipped package."
 ;; activate installed packages
 (package-initialize)
 
+(defvar margin-background-color "#1c1c1c")
+
 (defun inittheme ()
   (interactive "P")
  (set-frame-font "LiberationMono-9")
  (load-theme 'darktooth t)
+ (set-face-attribute 'fringe nil :background margin-background-color)
   )
 
 (require 'darktooth-theme)
@@ -104,6 +107,7 @@ Return a list of installed packages or nil for every skipped package."
                (when (window-system f)
                  (inittheme)))))
  (inittheme))
+
 
 
 (require 'highlight-indent-guides)
@@ -183,6 +187,7 @@ Return a list of installed packages or nil for every skipped package."
 (require 'linum)
 (setq linum-format " %3d\u2502")
 (global-set-key (kbd "C-g") 'goto-line-with-feedback)
+(set-face-attribute 'linum nil :background margin-background-color)
 
 (defun goto-line-with-feedback ()
   "Show line numbers temporarily, while prompting for the line number input"
@@ -269,12 +274,15 @@ Return a list of installed packages or nil for every skipped package."
 (global-git-gutter+-mode)
 (setq git-gutter+-hide-gutter t)
 
-(set-face-background 'git-gutter+-modified nil)
-(set-face-background 'git-gutter+-added nil)
-(set-face-background 'git-gutter+-deleted nil)
+(set-face-background 'git-gutter+-modified margin-background-color)
+(set-face-background 'git-gutter+-added margin-background-color)
+(set-face-background 'git-gutter+-deleted margin-background-color)
 (set-face-foreground 'git-gutter+-modified "purple")
 (set-face-foreground 'git-gutter+-added    "green")
 (set-face-foreground 'git-gutter+-deleted  "red")
+
+(setq git-gutter+-unchanged-sign " ")
+(set-face-background 'git-gutter+-unchanged margin-background-color)
 
 ;; completion
 (require 'company)
