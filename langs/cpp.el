@@ -14,6 +14,9 @@
   "Setup function for C++ mode"
    (set (make-local-variable 'company-backends)
         '((company-rtags
+           :with company-yasnippet
+           :with company-files
+           :with company-dabbrev
            )))
 
   (highlight-indent-guides-mode)

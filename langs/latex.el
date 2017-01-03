@@ -14,8 +14,8 @@
   "Setups LaTeX mode"
    (set (make-local-variable 'company-backends)
         '((company-auctex
-           company-yasnippet
-           company-dabbrev
+           :with company-yasnippet
+           :with company-dabbrev
            )))
   (flyspell-mode)
   (LaTeX-math-mode)

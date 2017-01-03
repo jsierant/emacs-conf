@@ -13,9 +13,9 @@
   "Setup function for cmake mode"
    (set (make-local-variable 'company-backends)
         '((company-cmake
-           company-yasnippet
-           company-files
-           company-dabbrev
+           :with company-yasnippet
+           :with company-files
+           :with company-dabbrev
            )))
 
    (company-mode 1)

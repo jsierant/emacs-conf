@@ -14,9 +14,9 @@
   "Setup function for python mode"
    (set (make-local-variable 'company-backends)
         '((company-jedi
-           company-yasnippet
-           company-files
-           company-dabbrev
+           :with company-yasnippet
+           :with company-files
+           :with company-dabbrev
            )))
 
   (flycheck-mode)

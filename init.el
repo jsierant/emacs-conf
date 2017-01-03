@@ -282,6 +282,7 @@ Return a list of installed packages or nil for every skipped package."
 
 (setq company-idle-delay 0.1)
 (setq company-minimum-prefix-length 2)
+(setq company-transformers '(company-sort-by-backend-importance))
 
 
 (require 'company-dabbrev)

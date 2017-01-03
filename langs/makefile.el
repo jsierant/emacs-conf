@@ -13,9 +13,9 @@
   "Setup function for python mode"
    (set (make-local-variable 'company-backends)
         '((company-etags
-           company-yasnippet
-           company-files
-           company-dabbrev
+           :with company-yasnippet
+           :with company-files
+           :with company-dabbrev
            )))
 
   (local-set-key (kbd "<f5>") 'ltags-update)

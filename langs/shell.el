@@ -11,9 +11,9 @@
   "Setup function for python mode"
    (set (make-local-variable 'company-backends)
         '((company-shell
-           company-yasnippet
-           company-files
-           company-dabbrev
+           :with company-yasnippet
+           :with company-files
+           :with company-dabbrev
            )))
 
   (highlight-indent-guides-mode)

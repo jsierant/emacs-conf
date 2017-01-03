@@ -1,4 +1,11 @@
+;;; package --- Elisp suppport for emacs
 
+;;; Commentary:
+
+;;; Code:
+
+
+(provide 'module_name)
 (require 'company-elisp)
 (require 'elisp-slime-nav)
 (require 'company-quickhelp)
@@ -7,9 +14,9 @@
   "Setup function for elisp mode"
    (set (make-local-variable 'company-backends)
         '((company-elisp
-           company-yasnippet
-           company-files
-           company-dabbrev
+           :with company-yasnippet
+           :with company-files
+           :with company-dabbrev
            )))
 
   (flycheck-mode)
@@ -34,3 +41,4 @@
   "s d" 'describe-symbol
   "g d" 'elisp-slime-nav-find-elisp-thing-at-point
   "g b" 'pop-tag-mark)
+
