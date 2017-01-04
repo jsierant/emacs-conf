@@ -76,7 +76,7 @@ Return a list of installed packages or nil for every skipped package."
  'flyspell
  'helm-flyspell
  'disaster
- 'neotree
+ 'direx
  'autopair
  'color-identifiers-mode
  'rainbow-delimiters
@@ -178,7 +178,7 @@ Return a list of installed packages or nil for every skipped package."
         ;;no errors, make the compilation window go away in a few seconds
         (progn
           (run-at-time
-           "2 sec" nil 'delete-windows-on
+           "4 sec" nil 'delete-windows-on
            (get-buffer-create "*compilation*"))
           (message "No Compilation Errors!")))))
 (setq compilation-window-height 15)
@@ -251,7 +251,7 @@ Return a list of installed packages or nil for every skipped package."
 
 (require 'projectile)
 (projectile-mode 1)
-(setq projectile-mode-line '(:eval (format "[%s]" (projectile-project-name))))
+(setq projectile-mode-line '(:eval (format " [%s]" (projectile-project-name))))
 
 (require 'helm-projectile)
 (helm-projectile-on)
@@ -347,6 +347,10 @@ Return a list of installed packages or nil for every skipped package."
   "f w l" 'evil-window-left
   "f w b" 'evil-window-down
   "f w a" 'evil-window-up
+  "w r" 'evil-window-right
+  "w l" 'evil-window-left
+  "w b" 'evil-window-down
+  "w a" 'evil-window-up
   "h w" 'highlight-symbol
   "c l" 'comment-dwim
   )
@@ -377,9 +381,6 @@ Return a list of installed packages or nil for every skipped package."
 ;; Don't show *Buffer list* when opening multiple files at the same time.
 (setq inhibit-startup-buffer-menu t)
 
-;; Show only one active window when opening multiple files at the same time.
-(add-hook 'window-setup-hook 'delete-other-windows)
-
 (defun projectile-frame-title-format ()
     "Return frame title with current project name, where applicable."
     (let ((file buffer-file-name))
@@ -398,30 +399,15 @@ Return a list of installed packages or nil for every skipped package."
 (setq debug-on-error t)
 (setq enable-local-eval t)
 
-(require 'neotree)
-(defun neotree-project-dir ()
-   "Open NeoTree using the git root."
-   (interactive)
-   (let ((project-dir (projectile-project-root))
-         (file-name (buffer-file-name)))
-     (if project-dir
-         (if (neotree-toggle)
-             (progn
-               (neotree-dir project-dir)
-               (neotree-find file-name)))
-       (message "Could not find git project root."))))
+(require 'direx)
+(push '(direx:direx-mode :position left :width 25 :dedicated t)
+      popwin:special-display-config)
+(global-set-key (kbd "<f6>") 'direx:jump-to-directory-other-window)
 
-(global-set-key (kbd "<f6>") 'neotree-project-dir)
+(evil-set-initial-state 'direx:direx-mode 'emacs)
+(define-key direx:direx-mode-map (kbd "j") 'direx:next-item)
+(define-key direx:direx-mode-map (kbd "k") 'direx:previous-item)
 
-(add-hook
- 'neotree-mode-hook
- (lambda ()
-   (define-key evil-normal-state-local-map (kbd "TAB") 'neotree-enter)
-   (define-key evil-normal-state-local-map (kbd "SPC") 'neotree-enter)
-   (define-key evil-normal-state-local-map (kbd "q") 'neotree-hide)
-   (define-key evil-normal-state-local-map (kbd "RET") 'neotree-enter)))
-
-(setq neo-window-width 40)
 
 (global-unset-key (kbd "S-k"))
 (global-unset-key (kbd "S-j"))
@@ -443,11 +429,13 @@ Return a list of installed packages or nil for every skipped package."
 (modeline-remove-lighter 'undo-tree-mode)
 (modeline-remove-lighter 'elpy-mode)
 (modeline-remove-lighter 'flycheck-mode)
+(modeline-remove-lighter 'flyspell-mode)
 (modeline-remove-lighter 'autopair-mode)
 (modeline-remove-lighter 'auto-revert-mode)
 (modeline-remove-lighter 'yas-minor-mode)
 (modeline-remove-lighter 'whitespace-mode)
 (modeline-remove-lighter 'elisp-slime-nav-mode)
+(modeline-remove-lighter 'abbrev-mode)
 
 
 (require 'column-marker)
@@ -464,17 +452,3 @@ Return a list of installed packages or nil for every skipped package."
 
 (provide 'init)
 ;;; init.el ends here
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   (quote
-    (popwin shelldoc rtags rainbow-delimiters neotree magit highlight-symbol highlight-indent-guides helm-projectile helm-make helm-flyspell git-gutter+ flycheck-pyflakes evil-matchit evil-leader elpy elisp-slime-nav disaster darktooth-theme company-shell company-quickhelp company-jedi company-auctex column-marker color-identifiers-mode cmake-font-lock autopair airline-themes))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
