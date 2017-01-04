@@ -86,6 +86,7 @@ Return a list of installed packages or nil for every skipped package."
  'auctex
  'company-auctex
  'column-marker
+ 'popwin
  )
 
 ;; activate installed packages
@@ -181,6 +182,8 @@ Return a list of installed packages or nil for every skipped package."
            (get-buffer-create "*compilation*"))
           (message "No Compilation Errors!")))))
 (setq compilation-window-height 15)
+(require 'popwin)
+(popwin-mode 1)
 
 ;; line numbers - only on go to line
 ;;(global-linum-mode 1)
@@ -248,7 +251,7 @@ Return a list of installed packages or nil for every skipped package."
 
 (require 'projectile)
 (projectile-mode 1)
-(setq projectile-mode-line '(:eval (format " pro[%s]" (projectile-project-name))))
+(setq projectile-mode-line '(:eval (format "[%s]" (projectile-project-name))))
 
 (require 'helm-projectile)
 (helm-projectile-on)
@@ -410,12 +413,13 @@ Return a list of installed packages or nil for every skipped package."
 
 (global-set-key (kbd "<f6>") 'neotree-project-dir)
 
-(add-hook 'neotree-mode-hook
-            (lambda ()
-              (define-key evil-normal-state-local-map (kbd "TAB") 'neotree-enter)
-              (define-key evil-normal-state-local-map (kbd "SPC") 'neotree-enter)
-              (define-key evil-normal-state-local-map (kbd "q") 'neotree-hide)
-              (define-key evil-normal-state-local-map (kbd "RET") 'neotree-enter)))
+(add-hook
+ 'neotree-mode-hook
+ (lambda ()
+   (define-key evil-normal-state-local-map (kbd "TAB") 'neotree-enter)
+   (define-key evil-normal-state-local-map (kbd "SPC") 'neotree-enter)
+   (define-key evil-normal-state-local-map (kbd "q") 'neotree-hide)
+   (define-key evil-normal-state-local-map (kbd "RET") 'neotree-enter)))
 
 (setq neo-window-width 40)
 
@@ -460,3 +464,17 @@ Return a list of installed packages or nil for every skipped package."
 
 (provide 'init)
 ;;; init.el ends here
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   (quote
+    (popwin shelldoc rtags rainbow-delimiters neotree magit highlight-symbol highlight-indent-guides helm-projectile helm-make helm-flyspell git-gutter+ flycheck-pyflakes evil-matchit evil-leader elpy elisp-slime-nav disaster darktooth-theme company-shell company-quickhelp company-jedi company-auctex column-marker color-identifiers-mode cmake-font-lock autopair airline-themes))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
