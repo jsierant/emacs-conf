@@ -13,10 +13,14 @@
   "Setup function for cmake mode"
    (set (make-local-variable 'company-backends)
         '((company-cmake
+           :with compant-etags
            :with company-yasnippet
            :with company-files
            :with company-dabbrev
            )))
+
+   (local-set-key (kbd "<f5>") 'ltags-update)
+   (ltags-setup "cmake")
 
    (company-mode 1)
    (cmake-font-lock-activate)
@@ -91,9 +95,13 @@
 
 (evil-leader/set-key-for-mode
   'cmake-mode
-  "s d c" 'cmake-doc-command-at-point
-  "s d v" 'cmake-doc-variable-at-point
-  "s d m" 'cmake-doc-module-at-point
+  "d c" 'cmake-doc-command-at-point
+  "d v" 'cmake-doc-variable-at-point
+  "d m" 'cmake-doc-module-at-point
+  "j" 'xref-find-definitions
+  "w j" 'xref-find-definitions-other-window
+  "u" 'xref-find-references
+  "b" 'xref-pop-marker-stack
   )
 
 (provide 'cmake)

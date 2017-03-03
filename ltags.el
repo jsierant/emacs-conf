@@ -35,8 +35,8 @@
 (defun ltags-create-update-opts(lang filename user-options)
   (defvar-local ltags-exec-base-opts
     (list
-     "--langmap=make:([Mm]akefile).conf([Mm]akefile).variables"
-     (concat"--languages=" lang)
+     "--options=~/.emacs.d/ctags_conf"
+     (concat "--languages=" lang)
      "-f" filename
      "-R" "-e"
      (ltags-add-exclude-pattern ".git/*")

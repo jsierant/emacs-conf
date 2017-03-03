@@ -1,0 +1,7 @@
+--langdef=cmake
+--langmap=cmake:(CMakeList.txt)(*.cmake)
+--regex-cmake=/set\(\s*([a-z0-9_]+)\s+/\1/v,variable/i
+--regex-cmake=/macro\(\s*([a-z0-9_]+)/\1/m,macro/i
+--regex-cmake=/function\(\s*([a-z0-9_]+)/\1/f,function/i
+
+--langmap=make:([Mm]akefile).conf([Mm]akefile).variables

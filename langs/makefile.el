@@ -19,8 +19,9 @@
            )))
 
   (local-set-key (kbd "<f5>") 'ltags-update)
-  (company-mode 1)
   (ltags-setup "Make")
+
+  (company-mode 1)
   (setq-local makefile-warn-suspicious-lines nil)
 )
 
@@ -28,10 +29,10 @@
 
 (evil-leader/set-key-for-mode
   'makefile-gmake-mode
-  "g d" 'xref-find-definitions
-  "g w d" 'xref-find-definitions-other-window
-  "f r" 'xref-find-references
-  "g b" 'xref-pop-marker-stack)
+  "j" 'xref-find-definitions
+  "w j" 'xref-find-definitions-other-window
+  "u" 'xref-find-references
+  "b" 'xref-pop-marker-stack)
 
 
 (provide 'makefile)
