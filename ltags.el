@@ -35,8 +35,8 @@
 (defun ltags-create-update-opts(lang filename user-options)
   (defvar-local ltags-exec-base-opts
     (list
-     "--options=~/.emacs.d/ctags_conf"
      (concat "--languages=" lang)
+     (concat "--options=" (getenv "HOME") "/.emacs.d/ctags_conf")
      "-f" filename
      "-R" "-e"
      (ltags-add-exclude-pattern ".git/*")
@@ -48,10 +48,14 @@
     )
   )
 
+(defun my-concat( list )
+  (format nil "~{~a~^ ~}" list))
+
 ;;;###autoload
 (defun ltags-update (&optional args)
   "Update tags - ARGS shall be empty."
   (interactive "P")
+  (message (concat "Updating tags: " ltags-lang))
   (defvar-local process (apply 'start-process
                 "tags update"
                 ltags-update-buffer-name
@@ -65,6 +69,7 @@
         (kill-buffer ltags-update-buffer-name)
         (message (concat "Tags updated for language: " ltags-lang " (stored in: " ltags-lang-file ")"))
         )))
+  (message (concat "Process started: " ltags-lang))
   )
 ;;;###autoload
 (defun ltags-setup (lang)

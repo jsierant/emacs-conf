@@ -13,7 +13,7 @@
   "Setup function for cmake mode"
    (set (make-local-variable 'company-backends)
         '((company-cmake
-           :with compant-etags
+           :with company-etags
            :with company-yasnippet
            :with company-files
            :with company-dabbrev
