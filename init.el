@@ -91,6 +91,8 @@ Return a list of installed packages or nil for every skipped package."
  'nlinum-relative
  )
 
+(add-to-list 'load-path "~/.emacs.d/modules/markdown-mode")
+
 ;; activate installed packages
 (package-initialize)
 
@@ -321,6 +323,7 @@ Return a list of installed packages or nil for every skipped package."
 (load "~/.emacs.d/langs/cmake.el")
 (load "~/.emacs.d/langs/cpp.el")
 (load "~/.emacs.d/langs/latex.el")
+(load "~/.emacs.d/langs/markdown.el")
 
 
 ;; window split and navigation

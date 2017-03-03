@@ -4,3 +4,6 @@
 [submodule "evil-noautochdir"]
 	path = evil-noautochdir
 	url = https://github.com/gbarta/evil-noautochdir.git
+[submodule "modules/markdown-mode"]
+	path = modules/markdown-mode
+	url = https://github.com/jrblevin/markdown-mode.git
