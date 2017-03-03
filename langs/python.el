@@ -33,7 +33,6 @@
         '((company-jedi
            :with company-yasnippet
            :with company-files
-           :with company-dabbrev
            )))
 
   (setq flycheck-check-syntax-automatically '(mode-enabled save))
@@ -45,10 +44,16 @@
   (elpy-mode)
   (eldoc-mode)
 
-  (setq-local completion-styles "substring")
+  (setq-local completion-styles "partial-completion")
 
   (company-mode)
   (company-quickhelp-mode 1)
+  (setq-local company-frontends
+              '(company-echo-frontend
+                company-pseudo-tooltip-frontend
+                company-quickhelp-frontend
+                )
+      )
 )
 
 (add-hook 'python-mode-hook 'python/mode-setup)

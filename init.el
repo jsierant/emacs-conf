@@ -79,7 +79,6 @@ Return a list of installed packages or nil for every skipped package."
  'helm-flyspell
  'disaster
  'direx
- 'autopair
  'color-identifiers-mode
  'rainbow-delimiters
  'highlight-symbol
@@ -120,9 +119,6 @@ Return a list of installed packages or nil for every skipped package."
 (require 'whitespace)
 (setq-default whitespace-style '(face trailing spaces tabs))
 (add-hook 'prog-mode-hook 'whitespace-mode)
-
-(require 'autopair)
-(autopair-global-mode)
 
 (setq make-backup-files nil)
 
@@ -408,7 +404,6 @@ Return a list of installed packages or nil for every skipped package."
 (modeline-remove-lighter 'elpy-mode)
 (modeline-remove-lighter 'flycheck-mode)
 (modeline-remove-lighter 'flyspell-mode)
-(modeline-remove-lighter 'autopair-mode)
 (modeline-remove-lighter 'auto-revert-mode)
 (modeline-remove-lighter 'yas-minor-mode)
 (modeline-remove-lighter 'whitespace-mode)
