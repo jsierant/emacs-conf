@@ -84,7 +84,6 @@ Return a list of installed packages or nil for every skipped package."
  'rainbow-delimiters
  'highlight-symbol
  'elpy
- 'anaconda-mode
  'company-jedi
  'auctex
  'company-auctex
@@ -97,7 +96,6 @@ Return a list of installed packages or nil for every skipped package."
 (defvar margin-background-color "#1c1c1c")
 
 (defun inittheme ()
-  "Initialize theme."
   (interactive "P")
  (set-frame-font "LiberationMono-9")
  (load-theme 'darktooth t)
@@ -417,41 +415,9 @@ Return a list of installed packages or nil for every skipped package."
 (modeline-remove-lighter 'elisp-slime-nav-mode)
 (modeline-remove-lighter 'abbrev-mode)
 
-
-(defun marker-is-point-p (marker)
-  "Test if MARKER is current point."
-  (and (eq (marker-buffer marker) (current-buffer))
-       (= (marker-position marker) (point))))
-
-(defun push-mark-maybe ()
-  "Push mark onto `global-mark-ring' if mark head or tail is not current location."
-  (if (not global-mark-ring) (error "Empty global-mark-ring")
-    (unless (or (marker-is-point-p (car global-mark-ring))
-                (marker-is-point-p (car (reverse global-mark-ring))))
-      (push-mark))))
-
-
-(defun backward-global-mark ()
-  "Use `pop-global-mark', pushing current point if not on ring."
-  (interactive)
-  (push-mark-maybe)
-  (when (marker-is-point-p (car global-mark-ring))
-    (call-interactively 'pop-global-mark))
-  (call-interactively 'pop-global-mark))
-
-(defun forward-global-mark ()
-  "Hack `pop-global-mark' to go in reverse, pushing current point if not on ring."
-  (interactive)
-  (push-mark-maybe)
-  (setq global-mark-ring (nreverse global-mark-ring))
-  (when (marker-is-point-p (car global-mark-ring))
-    (call-interactively 'pop-global-mark))
-  (call-interactively 'pop-global-mark)
-  (setq global-mark-ring (nreverse global-mark-ring)))
-
 (evil-leader/set-key
-  "b" (quote backward-global-mark)
-  "f" (quote forward-global-mark)
+  "b" (quote evil-jump-backward)
+  "f" (quote evil-jump-forward)
   )
 
 (provide 'init)
