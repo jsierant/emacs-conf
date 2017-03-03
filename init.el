@@ -297,6 +297,12 @@ Return a list of installed packages or nil for every skipped package."
 (define-key company-active-map (kbd "C-j") #'company-select-next)
 (define-key company-active-map (kbd "C-k") #'company-select-previous)
 
+(setq company-frontends
+      '(company-echo-frontend
+        company-pseudo-tooltip-frontend
+        company-quickhelp-frontend
+        )
+      )
 
 (require 'flycheck)
 (require 'flyspell)
