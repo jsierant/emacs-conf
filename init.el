@@ -89,6 +89,8 @@ Return a list of installed packages or nil for every skipped package."
  'company-auctex
  'popwin
  'nlinum-relative
+ 'lua-mode
+ 'company-lua
  )
 
 (add-to-list 'load-path "~/.emacs.d/modules/markdown-mode")
@@ -100,7 +102,7 @@ Return a list of installed packages or nil for every skipped package."
 
 (defun inittheme ()
   (interactive "P")
- (set-frame-font "LiberationMono-9")
+ (set-frame-font "LiberationMono-22")
  (load-theme 'darktooth t)
  (set-face-attribute 'fringe nil :background margin-background-color)
   )
