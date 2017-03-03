@@ -5,7 +5,6 @@
 ;;; Code:
 
 
-(require 'flycheck-pyflakes)
 (require 'company-quickhelp)
 (require 'company-jedi)
 (require 'elpy)
@@ -46,8 +45,6 @@
   (elpy-mode)
   (eldoc-mode)
 
-  (local-set-key (kbd "C-c d") 'elpy-doc)
-
   (setq-local completion-styles "substring")
 
   (company-mode)
@@ -58,17 +55,16 @@
 
 (evil-leader/set-key-for-mode
   'python-mode
-  "s d" 'elpy-doc
-  "h d" (lambda () (interactive "")
+  "d" 'elpy-doc
+  "w d" (lambda () (interactive "")
           (switch-to-buffer "*Python Doc*")
           (kill-buffer-and-window))
 
-  "d"   'elpy-goto-definition
-  "w d" 'elpy-goto-definition-other-window
-  "b"   'pop-tag-mark
-  "f r" 'elpy-rgrep-symbol
-  "e s" 'elpy-multiedit-python-symbol-at-point
-  "f c" 'elpy-format-code
+  "j"   'elpy-goto-definition
+  "w j" 'elpy-goto-definition-other-window
+  "u" 'elpy-rgrep-symbol
+  "e" 'elpy-multiedit-python-symbol-at-point
+  "f" 'elpy-format-code
   )
 
 (evil-define-key

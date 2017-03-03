@@ -84,6 +84,7 @@ Return a list of installed packages or nil for every skipped package."
  'rainbow-delimiters
  'highlight-symbol
  'elpy
+ 'anaconda-mode
  'company-jedi
  'auctex
  'company-auctex
@@ -96,6 +97,7 @@ Return a list of installed packages or nil for every skipped package."
 (defvar margin-background-color "#1c1c1c")
 
 (defun inittheme ()
+  "Initialize theme."
   (interactive "P")
  (set-frame-font "LiberationMono-9")
  (load-theme 'darktooth t)
@@ -202,20 +204,6 @@ Return a list of installed packages or nil for every skipped package."
       (git-gutter+-mode)
       ))
 
-
-(defun show-lines ()
-  "Show line numbers"
-  (interactive)
-  (if linum-mode
-      (progn
-        (linum-mode -1)
-        (git-gutter+-mode)
-        )
-        (linum-mode 1)
-    )
-  )
-(global-set-key (kbd "C-l") 'show-lines)
-
 ;;Press “%” to jump between matched tags in Emacs. For example, in HTML “<div>” and “</div>” are a pair of tags.
 (require 'evil-matchit)
 (global-evil-matchit-mode 1)
@@ -312,7 +300,6 @@ Return a list of installed packages or nil for every skipped package."
 (require 'company-files)
 (define-key global-map (kbd "C-c f") 'company-files)
 
-(define-key company-active-map (kbd "C-e") #'company-)
 (define-key company-active-map (kbd "C-j") #'company-select-next)
 (define-key company-active-map (kbd "C-k") #'company-select-previous)
 
@@ -340,20 +327,12 @@ Return a list of installed packages or nil for every skipped package."
   (other-window 1))
 
 (evil-leader/set-key
-  "s w r" 'split-window-right
-  "s w l" 'split-window-left
-  "s w b" 'split-window-below
-  "s w a" 'split-window-above
-  "f w r" 'evil-window-right
-  "f w l" 'evil-window-left
-  "f w b" 'evil-window-down
-  "f w a" 'evil-window-up
   "w r" 'evil-window-right
   "w l" 'evil-window-left
   "w b" 'evil-window-down
   "w a" 'evil-window-up
-  "h w" 'highlight-symbol
-  "c l" 'comment-dwim
+  "h" 'highlight-symbol
+  "c" 'comment-dwim
   )
 
 (define-key evil-normal-state-map " " 'helm-mini)
@@ -437,6 +416,43 @@ Return a list of installed packages or nil for every skipped package."
 (modeline-remove-lighter 'whitespace-mode)
 (modeline-remove-lighter 'elisp-slime-nav-mode)
 (modeline-remove-lighter 'abbrev-mode)
+
+
+(defun marker-is-point-p (marker)
+  "Test if MARKER is current point."
+  (and (eq (marker-buffer marker) (current-buffer))
+       (= (marker-position marker) (point))))
+
+(defun push-mark-maybe ()
+  "Push mark onto `global-mark-ring' if mark head or tail is not current location."
+  (if (not global-mark-ring) (error "Empty global-mark-ring")
+    (unless (or (marker-is-point-p (car global-mark-ring))
+                (marker-is-point-p (car (reverse global-mark-ring))))
+      (push-mark))))
+
+
+(defun backward-global-mark ()
+  "Use `pop-global-mark', pushing current point if not on ring."
+  (interactive)
+  (push-mark-maybe)
+  (when (marker-is-point-p (car global-mark-ring))
+    (call-interactively 'pop-global-mark))
+  (call-interactively 'pop-global-mark))
+
+(defun forward-global-mark ()
+  "Hack `pop-global-mark' to go in reverse, pushing current point if not on ring."
+  (interactive)
+  (push-mark-maybe)
+  (setq global-mark-ring (nreverse global-mark-ring))
+  (when (marker-is-point-p (car global-mark-ring))
+    (call-interactively 'pop-global-mark))
+  (call-interactively 'pop-global-mark)
+  (setq global-mark-ring (nreverse global-mark-ring)))
+
+(evil-leader/set-key
+  "b" (quote backward-global-mark)
+  "f" (quote forward-global-mark)
+  )
 
 (provide 'init)
 ;;; init.el ends here
