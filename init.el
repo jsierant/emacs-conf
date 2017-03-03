@@ -240,7 +240,7 @@ Return a list of installed packages or nil for every skipped package."
 (helm-projectile-on)
 
 (require 'yasnippet)
-;(setq yas-snippet-dirs '("~/.emacs.d/snippets/"))
+(setq yas-snippet-dirs '("~/.emacs.d/snippets/"))
 (yas-global-mode 1)
 (yas-reload-all)
 
@@ -416,10 +416,6 @@ Return a list of installed packages or nil for every skipped package."
 (modeline-remove-lighter 'elisp-slime-nav-mode)
 (modeline-remove-lighter 'abbrev-mode)
 
-(evil-leader/set-key
-  "b" (quote evil-jump-backward)
-  "f" (quote evil-jump-forward)
-  )
 
 (provide 'init)
 ;;; init.el ends here

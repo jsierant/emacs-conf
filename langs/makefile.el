@@ -21,6 +21,7 @@
   (local-set-key (kbd "<f5>") 'ltags-update)
   (company-mode 1)
   (ltags-setup "Make")
+  (setq-local makefile-warn-suspicious-lines nil)
 )
 
 (add-hook 'makefile-gmake-mode-hook 'makefile/mode-setup)

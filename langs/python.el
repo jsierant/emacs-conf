@@ -44,16 +44,8 @@
   (elpy-mode)
   (eldoc-mode)
 
-  (setq-local completion-styles "partial-completion")
-
   (company-mode)
   (company-quickhelp-mode 1)
-  (setq-local company-frontends
-              '(company-echo-frontend
-                company-pseudo-tooltip-frontend
-                company-quickhelp-frontend
-                )
-      )
 )
 
 (add-hook 'python-mode-hook 'python/mode-setup)
@@ -69,7 +61,9 @@
   "w j" 'elpy-goto-definition-other-window
   "u" 'elpy-rgrep-symbol
   "e" 'elpy-multiedit-python-symbol-at-point
-  "f" 'elpy-format-code
+  "r f" 'elpy-format-code
+  "b" (quote evil-jump-backward)
+  "f" (quote evil-jump-forward)
   )
 
 (evil-define-key
