@@ -10,6 +10,24 @@
 (require 'company-jedi)
 (require 'elpy)
 
+
+(require 'flycheck)
+
+
+(flycheck-define-checker python-pycodestyle
+  "Python codestyle checker"
+  :command ("pycodestyle" "-")
+  :error-patterns
+  (
+   (error line-start "stdin:" line ":" column ": E" (id) (message) line-end)
+   (warning line-start "stdin:" line ":" column ": W" (id) (message) line-end)
+   )
+  :modes (python-mode)
+  :next-checkers (python-pylint)
+  :standard-input t
+  )
+
+
 (defun python/mode-setup()
   "Setup function for python mode"
    (set (make-local-variable 'company-backends)
@@ -19,8 +37,9 @@
            :with company-dabbrev
            )))
 
+  (setq flycheck-check-syntax-automatically '(mode-enabled save))
   (flycheck-mode)
-  (flycheck-select-checker 'python-flake8)
+  (flycheck-select-checker 'python-pycodestyle)
 
   (highlight-indent-guides-mode)
 

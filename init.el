@@ -24,6 +24,8 @@
 (modify-syntax-entry ?_ "w" (standard-syntax-table))
 (modify-syntax-entry ?- "w" (standard-syntax-table))
 
+(setq ring-bell-function 'ignore)
+
 ;; packages
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
@@ -85,7 +87,6 @@ Return a list of installed packages or nil for every skipped package."
  'company-jedi
  'auctex
  'company-auctex
- 'column-marker
  'popwin
  )
 
@@ -396,7 +397,7 @@ Return a list of installed packages or nil for every skipped package."
     (setq frame-title-format '((:eval (projectile-frame-title-format)))))
 
 
-(setq debug-on-error t)
+;(setq debug-on-error t)
 (setq enable-local-eval t)
 
 (require 'direx)
@@ -436,19 +437,6 @@ Return a list of installed packages or nil for every skipped package."
 (modeline-remove-lighter 'whitespace-mode)
 (modeline-remove-lighter 'elisp-slime-nav-mode)
 (modeline-remove-lighter 'abbrev-mode)
-
-
-(require 'column-marker)
-(set-face-background 'column-marker-1 "orange")
-(set-face-background 'column-marker-2 "red")
-(set-face-foreground 'column-marker-1 "black")
-(set-face-foreground 'column-marker-2 "black")
-
-(add-hook 'prog-mode-hook
-          (lambda () (interactive)
-            (column-marker-1 80)
-            (column-marker-2 120)
-            ))
 
 (provide 'init)
 ;;; init.el ends here
