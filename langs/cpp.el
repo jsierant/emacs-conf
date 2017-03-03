@@ -23,8 +23,8 @@
   (setq rtags-autostart-diagnostics t)
   (setq rtags-completions-enabled t)
 
-  (setq-local flycheck-highlighting-mode nil) ;; RTags creates more accurate overlays.
-  (setq-local flycheck-check-syntax-automatically nil)
+;  (setq-local flycheck-highlighting-mode nil) ;; RTags creates more accurate overlays.
+;  (setq-local flycheck-check-syntax-automatically nil)
 
   (flycheck-select-checker 'rtags)
   (rtags-diagnostics 1)

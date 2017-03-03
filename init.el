@@ -28,7 +28,8 @@
 
 ;; packages
 (require 'package)
-(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
+(add-to-list 'package-archives
+             '("melpa" . "https://melpa.org/packages/") t)
 (package-initialize)
 
 (defun ensure-package-installed (&rest packages)
@@ -87,6 +88,7 @@ Return a list of installed packages or nil for every skipped package."
  'auctex
  'company-auctex
  'popwin
+ 'nlinum-relative
  )
 
 ;; activate installed packages
@@ -415,6 +417,16 @@ Return a list of installed packages or nil for every skipped package."
 (modeline-remove-lighter 'whitespace-mode)
 (modeline-remove-lighter 'elisp-slime-nav-mode)
 (modeline-remove-lighter 'abbrev-mode)
+
+
+(autoload 'markdown-mode "markdown-mode"
+   "Major mode for editing Markdown files" t)
+(add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
+
+(autoload 'gfm-mode "markdown-mode"
+   "Major mode for editing GitHub Flavored Markdown files" t)
+(add-to-list 'auto-mode-alist '("README\\.md\\'" . gfm-mode))
 
 
 (provide 'init)

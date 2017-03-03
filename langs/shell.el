@@ -7,6 +7,10 @@
 
 (require 'shelldoc)
 
+(add-to-list 'auto-mode-alist '("\\.zsh\\'" . sh-mode))
+(add-to-list 'auto-mode-alist '("\\.zprofile\\'" . sh-mode))
+(add-to-list 'auto-mode-alist '("\\.zshrc\\'" . sh-mode))
+
 (defun shell/mode-setup()
   "Setup function for python mode"
    (set (make-local-variable 'company-backends)
@@ -28,9 +32,6 @@
 
 (evil-leader/set-key-for-mode
   'sh-mode
-  "s d" nil
-  "g d" 'anaconda-mode-find-definitions
-  "f r" 'anaconda-mode-find-references
   "g b" 'pop-tag-mark)
 
 
