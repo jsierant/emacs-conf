@@ -105,16 +105,24 @@ Return a list of installed packages or nil for every skipped package."
  (set-frame-font "LiberationMono-22")
  (load-theme 'darktooth t)
  (set-face-attribute 'fringe nil :background margin-background-color)
- (let ((background-color (face-attribute 'default :background)))
+ ;; (let ((background-color (face-attribute 'default :background)))
 
-   (set-face-background 'git-gutter+-modified background-color)
-   (set-face-background 'git-gutter+-added background-color)
-   (set-face-background 'git-gutter+-deleted background-color)
-   (set-face-foreground 'git-gutter+-modified "purple")
-   (set-face-foreground 'git-gutter+-added    "green")
-   (set-face-foreground 'git-gutter+-deleted  "red")
-   )
+ ;;   (set-face-background 'git-gutter+-modified background-color)
+ ;;   (set-face-background 'git-gutter+-added background-color)
+ ;;   (set-face-background 'git-gutter+-deleted background-color)
+ ;;   (set-face-foreground 'git-gutter+-modified "purple")
+ ;;   (set-face-foreground 'git-gutter+-added    "green")
+ ;;   (set-face-foreground 'git-gutter+-deleted  "red")
+ ;;   )
  )
+
+(require 'nlinum-relative)
+(nlinum-relative-setup-evil)                    ;; setup for evil
+(add-hook 'prog-mode-hook 'nlinum-relative-mode)
+(setq nlinum-relative-redisplay-delay 0)      ;; delay
+(setq nlinum-relative-current-symbol "")      ;; or "" for display current line number
+;; (setq nlinum-relative-offset 0)                 ;; 1 if you want 0, 2, 3...
+
 
 (require 'darktooth-theme)
 (if (daemonp)
@@ -264,15 +272,15 @@ Return a list of installed packages or nil for every skipped package."
 (global-set-key (kbd "C-x g s") 'magit-status)
 (global-set-key (kbd "C-x g c i") 'magit-commit)
 
-(require 'git-gutter+)
+;; (require 'git-gutter+)
 
 
-(setq git-gutter+-modified-sign "│")
-(setq git-gutter+-added-sign "│")
-(setq git-gutter+-deleted-sign "│")
+;; (setq git-gutter+-modified-sign "│")
+;; (setq git-gutter+-added-sign "│")
+;; (setq git-gutter+-deleted-sign "│")
 
-(add-hook 'prog-mode-hook 'git-gutter+-mode)
-(setq git-gutter+-hide-gutter t)
+;; (add-hook 'prog-mode-hook 'git-gutter+-mode)
+;; (setq git-gutter+-hide-gutter t)
 
 
 
