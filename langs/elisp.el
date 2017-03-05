@@ -29,6 +29,7 @@
 
 (add-hook 'ielm-mode-hook 'elisp/mode-setup)
 (add-hook 'emacs-lisp-mode-hook 'elisp/mode-setup)
+(add-hook 'lisp-mode-hook 'elisp/mode-setup)
 
 (evil-leader/set-key-for-mode
   'emacs-lisp-mode

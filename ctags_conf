@@ -6,3 +6,6 @@
 --regex-cmake=/^function\(\s*([a-z0-9_]+)/\1/f,function/i
 
 --langmap=make:([Mm]akefile).conf([Mm]akefile).variables
+
+ --exclude=.git/*
+ --exclude=.svn/*

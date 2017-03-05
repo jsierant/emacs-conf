@@ -326,6 +326,7 @@ Return a list of installed packages or nil for every skipped package."
 (load "~/.emacs.d/langs/cpp.el")
 (load "~/.emacs.d/langs/latex.el")
 (load "~/.emacs.d/langs/markdown.el")
+(load "~/.emacs.d/langs/lua.el")
 
 
 ;; window split and navigation
