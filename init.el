@@ -101,11 +101,20 @@ Return a list of installed packages or nil for every skipped package."
 (defvar margin-background-color "#1c1c1c")
 
 (defun inittheme ()
-  (interactive "P")
+  "Inits theme."
  (set-frame-font "LiberationMono-22")
  (load-theme 'darktooth t)
  (set-face-attribute 'fringe nil :background margin-background-color)
-  )
+ (let ((background-color (face-attribute 'default :background)))
+
+   (set-face-background 'git-gutter+-modified background-color)
+   (set-face-background 'git-gutter+-added background-color)
+   (set-face-background 'git-gutter+-deleted background-color)
+   (set-face-foreground 'git-gutter+-modified "purple")
+   (set-face-foreground 'git-gutter+-added    "green")
+   (set-face-foreground 'git-gutter+-deleted  "red")
+   )
+ )
 
 (require 'darktooth-theme)
 (if (daemonp)
@@ -265,14 +274,6 @@ Return a list of installed packages or nil for every skipped package."
 (add-hook 'prog-mode-hook 'git-gutter+-mode)
 (setq git-gutter+-hide-gutter t)
 
-(defvar background-color (face-attribute 'default :background))
-
-(set-face-background 'git-gutter+-modified background-color)
-(set-face-background 'git-gutter+-added background-color)
-(set-face-background 'git-gutter+-deleted background-color)
-(set-face-foreground 'git-gutter+-modified "purple")
-(set-face-foreground 'git-gutter+-added    "green")
-(set-face-foreground 'git-gutter+-deleted  "red")
 
 
 ;; completion
