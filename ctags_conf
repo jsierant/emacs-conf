@@ -1,5 +1,6 @@
 --langdef=cmake
---langmap=cmake:(CMakeList.txt)(*.cmake)
+--langmap=cmake:(CMakeLists.txt)
+--langmap=cmake:+.cmake
 --regex-cmake=/\sset\(\s*([a-z0-9_]+)\s+/\1/v,variable/i
 --regex-cmake=/^set\(\s*([a-z0-9_]+)\s+/\1/v,variable/i
 --regex-cmake=/^macro\(\s*([a-z0-9_]+)/\1/m,macro/i
@@ -7,5 +8,5 @@
 
 --langmap=make:([Mm]akefile).conf([Mm]akefile).variables
 
- --exclude=.git/*
- --exclude=.svn/*
+--exclude=.git/*
+--exclude=.svn/*

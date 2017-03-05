@@ -384,7 +384,7 @@ Return a list of installed packages or nil for every skipped package."
     (setq frame-title-format '((:eval (projectile-frame-title-format)))))
 
 
-;(setq debug-on-error t)
+(setq debug-on-error t)
 (setq enable-local-eval t)
 
 (require 'direx)

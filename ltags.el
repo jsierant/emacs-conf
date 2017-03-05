@@ -8,7 +8,7 @@
   (concat default-directory ".tags/")
   )
 
-(defun ltags-file-name (lang)
+(defun ltags-file-name-create (lang)
   "Return tags file name for given LANG."
   (concat (ltags-dir-name) lang)
   )
@@ -20,11 +20,11 @@
     )
   )
 
-(defvar-local ltags-update-buffer-name "*tags-update*")
-(defvar-local ltags-exec "ctags")
+(defvar ltags-update-buffer-name "*tags-update*")
+(defvar ltags-exec "/usr/bin/ctags")
 
 (defvar-local ltags-lang nil "Tags language for mode.")
-(defvar-local ltags-lang-file nil "Tags language file.")
+(defvar-local ltags-lang-tags-file nil "Tags language file.")
 (defvar-local ltags-exec-opts nil "ctags options.")
 
 (defun ltags-add-exclude-pattern (pattern)
@@ -32,55 +32,49 @@
   (concat "--exclude=" pattern)
   )
 
-(defun ltags-create-update-opts(lang filename user-options)
+(defun ltags-create-update-cmd()
   (defvar-local ltags-exec-base-opts
     (list
-     (concat "--languages=" lang)
+     ltags-exec
      (concat "--options=" (getenv "HOME") "/.emacs.d/ctags_conf")
-     "-f" filename
+     (concat "--languages=" ltags-lang)
+     "-f" ltags-lang-tags-file
      "-R" "-e"
-     (ltags-add-exclude-pattern ".git/*")
-     (ltags-add-exclude-pattern ".svn/*")
      ))
-  (if user-options
-      (append ltags-exec-base-opts user-options)
+  (if ltags-exec-opts
+      (append ltags-exec-base-opts ltags-exec-opts)
       ltags-exec-base-opts
     )
   )
 
-(defun my-concat( list )
-  (format nil "~{~a~^ ~}" list))
 
-;;;###autoload
-(defun ltags-update (&optional args)
+(defun ltags-update ()
   "Update tags - ARGS shall be empty."
-  (interactive "P")
-  (message (concat "Updating tags: " ltags-lang))
-  (defvar-local process (apply 'start-process
-                "tags update"
-                ltags-update-buffer-name
-                ltags-exec
-                (ltags-create-update-opts ltags-lang ltags-lang-file ltags-exec-opts)
-                ))
-  (set-process-sentinel
-   process
-   (lambda (proc change)
-      (when (string-match "\\(finished\\|exited\\)" change)
-        (kill-buffer ltags-update-buffer-name)
-        (message (concat "Tags updated for language: " ltags-lang " (stored in: " ltags-lang-file ")"))
-        )))
-  (message (concat "Process started: " ltags-lang))
+  (interactive)
+  (message "Updating tags: %s" ltags-lang)
+  (make-process
+   :name "tags_udate"
+   :buffer (get-buffer-create
+            ltags-update-buffer-name)
+   :command (ltags-create-update-cmd)
+   :sentinel (lambda (proc change)
+               (when (string-match "\\(finished\\|exited\\)" change)
+                 (kill-buffer ltags-update-buffer-name)
+                 (message "Tags updated for language: %s (stored in: %s)."
+                          ltags-lang
+                          ltags-lang-tags-file)
+                 ))
+   )
   )
-;;;###autoload
+
 (defun ltags-setup (lang)
   "Setup tags for mode with given LANG."
   (setq-local ltags-lang lang)
-  (setq-local ltags-lang-file (ltags-file-name lang))
+  (setq-local ltags-lang-tags-file (ltags-file-name-create lang))
   (ltags-create-dir)
   (ltags-update)
-  (message "lang tags file")
-  (setq tags-file-name nil)
-  (setq tags-table-list (list ltags-lang-file))
+  (setq-local tags-file-name nil)
+  (setq-local tags-table-list (list ltags-lang-tags-file))
   )
 
 (provide 'ltags)
