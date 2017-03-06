@@ -338,6 +338,8 @@ Return a list of installed packages or nil for every skipped package."
 (load "~/.emacs.d/langs/lua.el")
 
 
+(load "~/.emacs.d/cmake-project.el")
+
 ;; window split and navigation
 (defadvice split-window (after move-point-to-new-window activate)
   "Moves the point to the newly created window after splitting."
