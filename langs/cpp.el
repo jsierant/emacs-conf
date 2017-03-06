@@ -6,6 +6,7 @@
 (require 'rtags)
 (require 'company-rtags)
 (require 'flycheck-rtags)
+(require 'flycheck-clang-tidy)
 (require 'rtags-helm)
 (require 'disaster)
 (load "/usr/share/clang/clang-format.el")
@@ -24,9 +25,11 @@
   (setq rtags-completions-enabled t)
 
 ;  (setq-local flycheck-highlighting-mode nil) ;; RTags creates more accurate overlays.
-;  (setq-local flycheck-check-syntax-automatically nil)
 
+                                        ; (setq-local flycheck-check-syntax-automatically nil)
   (flycheck-select-checker 'rtags)
+  (flycheck-clang-tidy-setup)
+  (flycheck-add-next-checker 'rtags 'c/c++-clang-tidy)
   (rtags-diagnostics 1)
   (company-mode)
   (flycheck-mode)

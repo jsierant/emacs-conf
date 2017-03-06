@@ -76,6 +76,7 @@ Return a list of installed packages or nil for every skipped package."
  'cmake-mode
  'cmake-font-lock
  'rtags
+ 'flycheck-clang-tidy
  'flyspell
  'helm-flyspell
  'disaster
@@ -105,9 +106,14 @@ Return a list of installed packages or nil for every skipped package."
 (add-hook 'prog-mode-hook 'git-gutter-mode)
 
 (custom-set-variables
- '(git-gutter:modified-sign "│")
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  '(git-gutter:added-sign "│")
- '(git-gutter:deleted-sign "│"))
+ '(git-gutter:deleted-sign "│")
+ '(git-gutter:modified-sign "│")
+ )
 
 (require 'darktooth-theme)
 (defun inittheme ()
