@@ -423,7 +423,7 @@ Return a list of installed packages or nil for every skipped package."
 
 
 (modeline-remove-lighter 'helm-mode)
-(modeline-remove-lighter 'git-gutter+-mode)
+(modeline-remove-lighter 'git-gutter-mode)
 (modeline-remove-lighter 'company-mode)
 (modeline-remove-lighter 'color-identifiers-mode)
 (modeline-remove-lighter 'undo-tree-mode)
@@ -435,6 +435,7 @@ Return a list of installed packages or nil for every skipped package."
 (modeline-remove-lighter 'whitespace-mode)
 (modeline-remove-lighter 'elisp-slime-nav-mode)
 (modeline-remove-lighter 'abbrev-mode)
+(modeline-remove-lighter 'linum-relative-mode)
 
 
 (provide 'init)
