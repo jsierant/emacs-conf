@@ -33,7 +33,7 @@
 (package-initialize)
 
 (defun ensure-package-installed (&rest packages)
-  "Assure every package is installed, ask for installation if it’s not.
+  "Assure all PACKAGES are installed, ask for installation if it’s not.
 
 Return a list of installed packages or nil for every skipped package."
   (mapcar
@@ -88,7 +88,7 @@ Return a list of installed packages or nil for every skipped package."
  'auctex
  'company-auctex
  'popwin
- 'nlinum-relative
+ 'linum-relative
  'lua-mode
  'company-lua
  )
@@ -105,23 +105,17 @@ Return a list of installed packages or nil for every skipped package."
  (set-frame-font "LiberationMono-10")
  (load-theme 'darktooth t)
  (set-face-attribute 'fringe nil :background margin-background-color)
- ;; (let ((background-color (face-attribute 'default :background)))
-
- ;;   (set-face-background 'git-gutter+-modified background-color)
- ;;   (set-face-background 'git-gutter+-added background-color)
- ;;   (set-face-background 'git-gutter+-deleted background-color)
- ;;   (set-face-foreground 'git-gutter+-modified "purple")
- ;;   (set-face-foreground 'git-gutter+-added    "green")
- ;;   (set-face-foreground 'git-gutter+-deleted  "red")
- ;;   )
+ ; (let ((background-color (face-attribute 'default :background)))
+ ;
+ ;   (set-face-background 'git-gutter+-modified background-color)
+ ;   (set-face-background 'git-gutter+-added background-color)
+ ;   (set-face-background 'git-gutter+-deleted background-color)
+ ;   (set-face-foreground 'git-gutter+-modified "purple")
+ ;   (set-face-foreground 'git-gutter+-added    "green")
+ ;   (set-face-foreground 'git-gutter+-deleted  "red")
+ ;   )
  )
 
-(require 'nlinum-relative)
-(nlinum-relative-setup-evil)                    ;; setup for evil
-(add-hook 'prog-mode-hook 'nlinum-relative-mode)
-(setq nlinum-relative-redisplay-delay 0)      ;; delay
-(setq nlinum-relative-current-symbol "")      ;; or "" for display current line number
-;; (setq nlinum-relative-offset 0)                 ;; 1 if you want 0, 2, 3...
 
 
 (require 'darktooth-theme)
@@ -133,7 +127,29 @@ Return a list of installed packages or nil for every skipped package."
                  (inittheme)))))
  (inittheme))
 
+(require 'linum-relative)
+(add-hook 'prog-mode-hook 'linum-relative-mode)
+(add-hook 'text-mode-hook 'linum-relative-mode)
+(setq linum-relative-current-symbol "")
 
+(defun linum-relative-setup-evil ()
+  "Setup nlinum-relative-mode for evil."
+  (interactive)
+  (add-hook 'evil-insert-state-entry-hook
+            (lambda () (when (bound-and-true-p linum-relative-mode) (linum-relative-off))))
+  (add-hook 'evil-insert-state-exit-hook
+            (lambda () (when (bound-and-true-p linum-relative-mode) (linum-relative-on))))
+  (add-hook 'evil-normal-state-entry-hook
+            (lambda () (when (bound-and-true-p linum-relative-mode) (linum-relative-on))))
+  (add-hook 'evil-normal-state-exit-hook
+            (lambda () (when (bound-and-true-p linum-relative-mode) (linum-relative-off))))
+  (add-hook 'evil-visual-state-entry-hook
+            (lambda () (when (bound-and-true-p linum-relative-mode) (linum-relative-on))))
+  (add-hook 'evil-visual-state-exit-hook
+            (lambda () (when (bound-and-true-p linum-relative-mode) (linum-relative-off))))
+  )
+
+(linum-relative-setup-evil)
 
 (require 'highlight-indent-guides)
 (setq highlight-indent-guides-method 'character)
@@ -204,22 +220,6 @@ Return a list of installed packages or nil for every skipped package."
 (setq compilation-window-height 15)
 (require 'popwin)
 (popwin-mode 1)
-
-;; line numbers - only on go to line
-;;(global-linum-mode 1)
-(require 'linum)
-(setq linum-format " %3d\u2502")
-(global-set-key (kbd "C-g") 'goto-line-with-feedback)
-
-(defun goto-line-with-feedback ()
-  "Show line numbers temporarily, while prompting for the line number input"
-  (interactive)   (unwind-protect
-      (progn
-        (linum-mode 1)
-        (goto-line (read-number "Goto line: ")))
-      (linum-mode -1)
-      (git-gutter+-mode)
-      ))
 
 ;;Press “%” to jump between matched tags in Emacs. For example, in HTML “<div>” and “</div>” are a pair of tags.
 (require 'evil-matchit)
