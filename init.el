@@ -63,7 +63,7 @@ Return a list of installed packages or nil for every skipped package."
  'helm-projectile
  'yasnippet
  'magit
- 'git-gutter+
+ 'git-gutter
  'company
  'company-quickhelp
  'company-shell
@@ -100,25 +100,27 @@ Return a list of installed packages or nil for every skipped package."
 
 (defvar margin-background-color "#1c1c1c")
 
+(require 'git-gutter)
+(git-gutter:linum-setup)
+(add-hook 'prog-mode-hook 'git-gutter-mode)
+
+(custom-set-variables
+ '(git-gutter:modified-sign "│")
+ '(git-gutter:added-sign "│")
+ '(git-gutter:deleted-sign "│"))
+
+(require 'darktooth-theme)
 (defun inittheme ()
   "Inits theme."
  (set-frame-font "LiberationMono-10")
  (load-theme 'darktooth t)
  (set-face-attribute 'fringe nil :background margin-background-color)
- ; (let ((background-color (face-attribute 'default :background)))
- ;
- ;   (set-face-background 'git-gutter+-modified background-color)
- ;   (set-face-background 'git-gutter+-added background-color)
- ;   (set-face-background 'git-gutter+-deleted background-color)
- ;   (set-face-foreground 'git-gutter+-modified "purple")
- ;   (set-face-foreground 'git-gutter+-added    "green")
- ;   (set-face-foreground 'git-gutter+-deleted  "red")
- ;   )
+ (set-face-foreground 'git-gutter:modified "purple")
+ (set-face-foreground 'git-gutter:added "green")
+ (set-face-foreground 'git-gutter:deleted "red")
  )
 
 
-
-(require 'darktooth-theme)
 (if (daemonp)
 (add-hook 'after-make-frame-functions
           '(lambda (f)
@@ -127,6 +129,8 @@ Return a list of installed packages or nil for every skipped package."
                  (inittheme)))))
  (inittheme))
 
+
+;; Line numbers
 (require 'linum-relative)
 (add-hook 'prog-mode-hook 'linum-relative-mode)
 (add-hook 'text-mode-hook 'linum-relative-mode)
@@ -150,6 +154,7 @@ Return a list of installed packages or nil for every skipped package."
   )
 
 (linum-relative-setup-evil)
+
 
 (require 'highlight-indent-guides)
 (setq highlight-indent-guides-method 'character)
@@ -195,10 +200,6 @@ Return a list of installed packages or nil for every skipped package."
 
 ;; compilation
 (require 'helm-make)
-(setq compilation-auto-jump-to-first-error t)
-(setq compilation-scroll-output t)
-;; No prompt for command
-(setq compilation-read-command nil)
 (global-set-key (kbd "<f8>") 'projectile-compile-project)
 (setq helm-make-list-target-method "qp")
 (global-set-key (kbd "<f7>") 'helm-make-projectile)
