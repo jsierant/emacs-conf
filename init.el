@@ -102,7 +102,7 @@ Return a list of installed packages or nil for every skipped package."
 
 (defun inittheme ()
   "Inits theme."
- (set-frame-font "LiberationMono-22")
+ (set-frame-font "LiberationMono-10")
  (load-theme 'darktooth t)
  (set-face-attribute 'fringe nil :background margin-background-color)
  ;; (let ((background-color (face-attribute 'default :background)))
@@ -432,16 +432,6 @@ Return a list of installed packages or nil for every skipped package."
 (modeline-remove-lighter 'whitespace-mode)
 (modeline-remove-lighter 'elisp-slime-nav-mode)
 (modeline-remove-lighter 'abbrev-mode)
-
-
-(autoload 'markdown-mode "markdown-mode"
-   "Major mode for editing Markdown files" t)
-(add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
-(add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
-
-(autoload 'gfm-mode "markdown-mode"
-   "Major mode for editing GitHub Flavored Markdown files" t)
-(add-to-list 'auto-mode-alist '("README\\.md\\'" . gfm-mode))
 
 
 (provide 'init)
