@@ -2,7 +2,7 @@
 	path = snippets
 	url = https://jsierant@github.com/jsierant/yasnippet-snippets.git
 [submodule "evil-noautochdir"]
-	path = evil-noautochdir
+	path = site-lisp/evil-noautochdir
 	url = https://github.com/gbarta/evil-noautochdir.git
 [submodule "modules/markdown-mode"]
 	path = modules/markdown-mode

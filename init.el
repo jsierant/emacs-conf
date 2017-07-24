@@ -37,6 +37,7 @@
 ;; packaging
 (require 'package)
 (setq package-user-dir "~/.emacs.d/site-lisp")
+(setq load-prefer-newer t)
 (add-to-list 'package-archives
              '("melpa" . "https://melpa.org/packages/") t)
 (package-initialize)
@@ -66,8 +67,7 @@
                    (with-selected-frame f
                      (when (window-system f)
                        (init-theme-impl)))))
-  (init-theme-impl))
-)
+  (init-theme-impl)))
 
 (use-package darktooth-theme
   :config (init-theme))
@@ -83,11 +83,37 @@
        airline-utf-glyph-branch              #xe0a0
        airline-utf-glyph-readonly            #xe0a2
        airline-utf-glyph-linenumber          #xe0a1)
-)
-(use-package airline-themes
-  :config (load-theme 'airline-cool t)
-  )
+ )
 
+(use-package airline-themes
+  :config (load-theme 'airline-cool t))
+
+(use-package evil-leader
+  :config
+  (global-evil-leader-mode)
+  (evil-leader/set-leader ",")
+  (evil-leader/set-key
+   "c" 'comment-dwim))
+
+(add-to-list 'load-path "~/.emacs.d/site-lisp/evil-noautochdir")
+
+(use-package evil-noautochdir)
+
+(use-package evil
+  :config
+  (evil-mode 1)
+  (define-key evil-normal-state-map "L" 'evil-window-right)
+  (define-key evil-normal-state-map "H" 'evil-window-left)
+  (define-key evil-normal-state-map "K" 'evil-window-up)
+  (define-key evil-normal-state-map "J" 'evil-window-down))
+
+(use-package auto-compile
+  :config
+  (auto-compile-on-save-mode))
+
+(defun compile-self ()
+  (interactive)
+  (byte-recompile-directory (expand-file-name "~/.emacs.d") 0))
 
 ;; ;; packages
 ;; (require 'package)
@@ -509,20 +535,3 @@
 
 (provide 'init)
 ;;; init.el ends here
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(git-gutter:added-sign "│")
- '(git-gutter:deleted-sign "│")
- '(git-gutter:modified-sign "│")
- '(package-selected-packages
-   (quote
-    (shelldoc rtags rainbow-delimiters popwin nlinum-relative neotree magit linum-relative highlight-symbol highlight-indent-guides helm-projectile helm-make helm-flyspell git-gutter-fringe+ git-gutter flycheck-pyflakes flycheck-clang-tidy evil-matchit evil-leader esup elpy elisp-slime-nav disaster direx darktooth-theme company-shell company-quickhelp company-lua company-jedi company-auctex column-marker color-identifiers-mode cmake-font-lock autopair airline-themes))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
