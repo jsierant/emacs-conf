@@ -34,6 +34,28 @@
 
 (setq ring-bell-function 'ignore)
 
+;; Makes *scratch* empty.
+(setq initial-scratch-message "")
+
+(defun kill-buffer-if-exist (buffer)
+  (if(get-buffer buffer)
+      (kill-buffer buffer)))
+
+;; Removes *scratch* from buffer after the mode has been set.
+(add-hook 'after-change-major-mode-hook
+          (lambda () (kill-buffer-if-exist "*scratch*")))
+
+;; Removes *messages* from the buffer.
+(setq-default message-log-max nil)
+(kill-buffer "*Messages*")
+
+;; Removes *Completions* from buffer after you've opened a file.
+(add-hook 'minibuffer-exit-hook
+          (lambda () (kill-buffer-if-exist "*Completions*")))
+
+;; Don't show *Buffer list* when opening multiple files at the same time.
+(setq inhibit-startup-buffer-menu t)
+
 ;; packaging
 (require 'package)
 (setq package-user-dir "~/.emacs.d/site-lisp")
@@ -50,14 +72,13 @@
 (require 'bind-key)                ;; if you use any :bind variant
 
 ;; theme initialization
+(defvar margin-background-color "#1c1c1c")
+(defvar linum-background-color "#282828")
 (defun init-theme-impl ()
   "Init theme."
  (set-frame-font "LiberationMono-9")
  (load-theme 'darktooth t)
-;; (set-face-attribute 'fringe nil :background margin-background-color)
-;; (set-face-foreground 'git-gutter:modified "purple")
-;; (set-face-foreground 'git-gutter:added "green")
-;; (set-face-foreground 'git-gutter:deleted "red")
+ (set-face-attribute 'fringe nil :background margin-background-color)
 )
 
 (defun init-theme ()
@@ -115,6 +136,25 @@
   (interactive)
   (byte-recompile-directory (expand-file-name "~/.emacs.d") 0))
 
+(use-package linum
+  :config
+  (global-linum-mode 1))
+
+(use-package git-gutter
+  :config
+  (set-face-foreground 'git-gutter:modified "purple")
+  (set-face-foreground 'git-gutter:added "green")
+  (set-face-foreground 'git-gutter:deleted "red")
+  (set-face-background 'git-gutter:modified linum-background-color) ;; background color
+  (set-face-background 'git-gutter:added linum-background-color)
+  (set-face-background 'git-gutter:deleted linum-background-color)
+  (git-gutter:linum-setup)
+  (add-hook 'prog-mode-hook 'git-gutter-mode)
+  (custom-set-variables
+   '(git-gutter:added-sign "│")
+   '(git-gutter:deleted-sign "│")
+   '(git-gutter:modified-sign "│"))
+  )
 ;; ;; packages
 ;; (require 'package)
 ;; (add-to-list 'package-archives
