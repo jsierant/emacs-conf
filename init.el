@@ -114,7 +114,9 @@
   (global-evil-leader-mode)
   (evil-leader/set-leader ",")
   (evil-leader/set-key
-   "c" 'comment-dwim))
+    "c" 'comment-dwim
+    "ff" 'helm-projectile-find-file
+    "fw" 'helm-projectilr-grep))
 
 (add-to-list 'load-path "~/.emacs.d/site-lisp/evil-noautochdir")
 
@@ -126,7 +128,8 @@
   (define-key evil-normal-state-map "L" 'evil-window-right)
   (define-key evil-normal-state-map "H" 'evil-window-left)
   (define-key evil-normal-state-map "K" 'evil-window-up)
-  (define-key evil-normal-state-map "J" 'evil-window-down))
+  (define-key evil-normal-state-map "J" 'evil-window-down)
+  (define-key evil-normal-state-map (kbd "SPC") 'helm-buffers-list))
 
 (use-package auto-compile
   :config
@@ -155,6 +158,53 @@
    '(git-gutter:deleted-sign "│")
    '(git-gutter:modified-sign "│"))
   )
+
+
+(use-package helm
+   :config
+   (global-set-key (kbd "C-c h") 'helm-command-prefix)
+   (global-unset-key (kbd "C-x c"))
+   (global-set-key (kbd "M-x") 'helm-M-x)
+   (global-set-key (kbd "C-x b") 'helm-mini)
+   (setq
+    helm-split-window-in-side-p           t
+    helm-move-to-line-cycle-in-source     t
+    helm-scroll-amount                    10)
+    (helm-autoresize-mode 1)
+   )
+
+(use-package projectile
+    :config
+    (projectile-mode 1)
+    (setq projectile-mode-line '(:eval (format " [%s]" (projectile-project-name))))
+    (defun projectile-frame-title-format ()
+        "Return frame title with current project name, where applicable."
+        (let ((file buffer-file-name))
+        (if file
+            (concat (when (and (bound-and-true-p projectile-mode)
+                                (projectile-project-p))
+                        (format " [%s]" (projectile-project-name)))
+                    " "
+                    (file-name-nondirectory file))
+            "%b")))
+
+    (when (display-graphic-p)
+        (setq frame-title-format '((:eval (projectile-frame-title-format)))))
+    )
+
+(use-package helm-projectile
+  :config
+  (helm-projectile-on))
+
+;; (require 'helm)
+;; (global-set-key (kbd "C-c h") 'helm-command-prefix)
+;; (global-unset-key (kbd "C-x c"))
+;; (global-set-key (kbd "M-x") 'helm-M-x)
+;; (global-set-key (kbd "C-x b") 'helm-mini)
+;; (global-set-key (kbd "C-x C-b") 'helm-buffers-list)
+;; (global-set-key (kbd "C-x C-f") 'helm-find-files)
+;; (evil-leader/set-key
+;;   "l b" 'helm-buffers-list)
 ;; ;; packages
 ;; (require 'package)
 ;; (add-to-list 'package-archives
@@ -575,3 +625,20 @@
 
 (provide 'init)
 ;;; init.el ends here
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(git-gutter:added-sign "│")
+ '(git-gutter:deleted-sign "│")
+ '(git-gutter:modified-sign "│")
+ '(package-selected-packages
+   (quote
+    (evil-noautochdir helm-projectile git-gutter evil-leader darktooth-theme auto-compile airline-themes))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
