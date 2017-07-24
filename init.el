@@ -4,6 +4,14 @@
 
 
 ;;; Code:
+;; speedup setup time
+(setq gc-cons-threshold most-positive-fixnum)
+(add-hook
+ 'minibuffer-exit-hook
+ (lambda ()
+   (setq gc-cons-threshold 800000)
+   )
+ )
 
 ;; view
 (tool-bar-mode -1)
