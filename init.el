@@ -27,6 +27,7 @@
 (scroll-bar-mode -1)
 (setq x-super-keysym 'meta)
 (setq x-alt-keysym 'alt)
+(setq frame-resize-pixelwise t)
 
 ;; disable welcome screen
 (setq inhibit-splash-screen t)
@@ -76,7 +77,7 @@
 (add-to-list 'load-path "~/.emacs.d/site-lisp/use-package")
 (eval-when-compile
   (require 'use-package))
-;; (setq use-package-always-ensure t)
+(setq use-package-always-ensure t)
 ;;(require 'diminish)                ;; if you use :diminish
 (require 'bind-key)                ;; if you use any :bind variant
 
@@ -158,18 +159,16 @@
 
 (use-package git-gutter
   :config
-  (set-face-foreground 'git-gutter:modified "purple")
-  (set-face-foreground 'git-gutter:added "green")
-  (set-face-foreground 'git-gutter:deleted "red")
-  (set-face-background 'git-gutter:modified linum-background-color) ;; background color
+  (setq git-gutter-sign "▌")
+  (set-face-background 'git-gutter:modified linum-background-color)
   (set-face-background 'git-gutter:added linum-background-color)
   (set-face-background 'git-gutter:deleted linum-background-color)
   (git-gutter:linum-setup)
   (add-hook 'prog-mode-hook 'git-gutter-mode)
   (custom-set-variables
-   '(git-gutter:added-sign "│")
-   '(git-gutter:deleted-sign "│")
-   '(git-gutter:modified-sign "│"))
+   '(git-gutter:added-sign git-gutter-sign)
+   '(git-gutter:deleted-sign git-gutter-sign)
+   '(git-gutter:modified-sign git-gutter-sign))
   (modeline-remove-lighter 'git-gutter-mode)
   )
 
@@ -553,23 +552,10 @@
 ;; (modeline-remove-lighter 'abbrev-mode)
 ;; (modeline-remove-lighter 'linum-relative-mode)
 
+(defun package--save-selected-packages (&optional value)
+  "Set and save `package-selected-packages' to VALUE."
+  (when value
+    (setq package-selected-packages value)))
 
 (provide 'init)
 ;;; init.el ends here
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(git-gutter:added-sign "│")
- '(git-gutter:deleted-sign "│")
- '(git-gutter:modified-sign "│")
- '(package-selected-packages
-   (quote
-    (yasnippet company-yasnippet company-debbrev company-quickhelp company evil-noautochdir helm-projectile git-gutter evil-leader darktooth-theme auto-compile airline-themes))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
