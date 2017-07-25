@@ -13,6 +13,14 @@
    )
  )
 
+(defun modeline-set-lighter (minor-mode lighter)
+  (when (assq minor-mode minor-mode-alist)
+    (setcar (cdr (assq minor-mode minor-mode-alist)) lighter)))
+
+(defun modeline-remove-lighter (minor-mode)
+ (modeline-set-lighter minor-mode ""))
+
+
 ;; view
 (tool-bar-mode -1)
 (menu-bar-mode -1)
@@ -157,6 +165,7 @@
    '(git-gutter:added-sign "│")
    '(git-gutter:deleted-sign "│")
    '(git-gutter:modified-sign "│"))
+  (modeline-remove-lighter 'git-gutter-mode)
   )
 
 
@@ -196,39 +205,8 @@
   :config
   (helm-projectile-on))
 
-;; (require 'helm)
-;; (global-set-key (kbd "C-c h") 'helm-command-prefix)
-;; (global-unset-key (kbd "C-x c"))
-;; (global-set-key (kbd "M-x") 'helm-M-x)
-;; (global-set-key (kbd "C-x b") 'helm-mini)
-;; (global-set-key (kbd "C-x C-b") 'helm-buffers-list)
-;; (global-set-key (kbd "C-x C-f") 'helm-find-files)
-;; (evil-leader/set-key
-;;   "l b" 'helm-buffers-list)
-;; ;; packages
-;; (require 'package)
-;; (add-to-list 'package-archives
-;;              '("melpa" . "https://melpa.org/packages/") t)
-;; (package-initialize)
 
-;; (defun ensure-package-installed (&rest packages)
-;;   "Assure all PACKAGES are installed, ask for installation if it’s not.
-
-;; Return a list of installed packages or nil for every skipped package."
-;;   (mapcar
-;;    (lambda (package)
-;;      ;; (package-installed-p 'evil)
-;;      (if (package-installed-p package)
-;;          nil
-;;        (if (y-or-n-p (format "Package %s is missing. Install it? " package))
-;;            (package-install package)
-;;          package)))
-;;    packages))
-
-;; ;; make sure to have downloaded archive description.
-;; ;; Or use package-archive-contents as suggested by Nicolas Dudebout
-;; (or (file-exists-p package-user-dir)
-;;     (package-refresh-contents))
+(modeline-remove-lighter 'undo-tree-mode)
 
 ;; (ensure-package-installed
 ;;  'darktooth-theme
