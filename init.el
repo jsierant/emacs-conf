@@ -69,9 +69,12 @@
 (require 'package)
 (setq package-user-dir "~/.emacs.d/site-lisp")
 (setq load-prefer-newer t)
-(setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
-                         ("marmalade" . "https://marmalade-repo.org/packages/")
-                         ("melpa" . "https://melpa.org/packages/")))
+(setq package-archives
+      '(
+        ;; ("gnu" . "https://elpa.gnu.org/packages/")
+        ;; ("marmalade" . "https://marmalade-repo.org/packages/")
+        ("melpa" . "https://melpa.org/packages/"))
+      )
 (package-initialize)
 
 (add-to-list 'load-path "~/.emacs.d/site-lisp/use-package")
