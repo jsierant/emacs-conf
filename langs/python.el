@@ -4,17 +4,6 @@
 
 ;;; Code:
 
-(flycheck-define-checker python-pycodestyle
-  "Python codestyle checker"
-  :command ("pycodestyle" "-")
-  :error-patterns
-  ((error line-start "stdin:" line ":" column ": E" (id) (message) line-end)
-   (warning line-start "stdin:" line ":" column ": W" (id) (message) line-end))
-  :modes (python-mode)
-  :next-checkers (python-pylint)
-  :standard-input t)
-
-
 (use-package anaconda)
 (use-package company-jedi)
 
@@ -30,8 +19,7 @@
 
   (setq flycheck-check-syntax-automatically '(mode-enabled save))
   (flycheck-mode)
-  (flycheck-select-checker 'python-pycodestyle)
-  (flycheck-add-next-checker 'python-pycodestyle 'python-pylint)
+  (flycheck-select-checker 'pycodestyle)
 
   (highlight-indent-guides-mode)
 

@@ -255,15 +255,44 @@
 
 (use-package company-files)
 
+
 (use-package flycheck
   :init
+  (defun flycheck-error-format-extension(err)
+    (let ((checker (symbol-name (flycheck-error-checker err)))
+          (level (symbol-name (flycheck-error-level err))))
+      (format "(%s:%s)" checker level)))
+  (defun flycheck-error-format-extended(orig-fun &rest err)
+    (let ((orig-message (apply orig-fun err))
+          (extension (apply #'flycheck-error-format-extension err)))
+      (format "%s %s" orig-message extension)))
+
+  (advice-add 'flycheck-error-format-message-and-id
+              :around #'flycheck-error-format-extended)
   (use-package flycheck-popup-tip
     :init
     (add-to-list 'load-path "~/.emacs.d/site-lisp/flycheck-popup-tip")
-    :ensure nil)
+    :ensure nil
+    :config
+    (setq flycheck-popup-tip-error-prefix "► ")
+    )
   :config
+  (setq flycheck-display-errors-delay 0.4)
   (add-hook 'flycheck-mode-hook 'flycheck-popup-tip-mode)
-  (modeline-remove-lighter 'flycheck-mode))
+  (modeline-remove-lighter 'flycheck-mode)
+
+  (flycheck-define-checker pycodestyle
+    "Python codestyle checker"
+    :command ("pycodestyle" "-")
+    :standard-input t
+    :error-patterns
+    ((warning line-start
+                "stdin:" line ":" (optional column ":") " "
+                (id (one-or-more (any alpha)) (one-or-more digit)) " "
+                (message (one-or-more not-newline))
+                line-end))
+    :next-checkers (python-pylint)
+    :modes python-mode))
 
 (load "~/.emacs.d/langs/python.el")
 
