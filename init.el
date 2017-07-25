@@ -216,6 +216,13 @@
 
 ;; programming
 
+(use-package highlight-indent-guides
+  :ensure t
+  :config
+  (setq highlight-indent-guides-method 'character)
+  (set-face-foreground 'highlight-indent-guides-character-face "darkgray"))
+  
+
 (use-package company
   :config
   (setq company-auto-complete t)

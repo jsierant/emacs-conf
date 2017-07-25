@@ -33,7 +33,7 @@
   (flycheck-select-checker 'python-pycodestyle)
   (flycheck-add-next-checker 'python-pycodestyle 'python-pylint)
 
-  ;; (highlight-indent-guides-mode)
+  (highlight-indent-guides-mode)
 
   (anaconda-mode)
   (anaconda-eldoc-mode)
