@@ -50,12 +50,12 @@
       (kill-buffer buffer)))
 
 ;; Removes *scratch* from buffer after the mode has been set.
-(add-hook 'after-change-major-mode-hook
-          (lambda () (kill-buffer-if-exist "*scratch*")))
+;; (add-hook 'after-change-major-mode-hook
+;;           (lambda () (kill-buffer-if-exist "*scratch*")))
 
 ;; Removes *messages* from the buffer.
-(setq-default message-log-max nil)
-(kill-buffer "*Messages*")
+;; (setq-default message-log-max nil)
+;; (kill-buffer "*Messages*")
 
 ;; Removes *Completions* from buffer after you've opened a file.
 (add-hook 'minibuffer-exit-hook
@@ -68,14 +68,15 @@
 (require 'package)
 (setq package-user-dir "~/.emacs.d/site-lisp")
 (setq load-prefer-newer t)
-(add-to-list 'package-archives
-             '("melpa" . "https://melpa.org/packages/") t)
+(setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
+                         ("marmalade" . "https://marmalade-repo.org/packages/")
+                         ("melpa" . "https://melpa.org/packages/")))
 (package-initialize)
 
 (add-to-list 'load-path "~/.emacs.d/site-lisp/use-package")
 (eval-when-compile
   (require 'use-package))
-(setq use-package-always-ensure t)
+;; (setq use-package-always-ensure t)
 ;;(require 'diminish)                ;; if you use :diminish
 (require 'bind-key)                ;; if you use any :bind variant
 
@@ -124,11 +125,15 @@
   (evil-leader/set-key
     "c" 'comment-dwim
     "ff" 'helm-projectile-find-file
-    "fw" 'helm-projectilr-grep))
+    "fw" 'helm-projectilr-grep)
+    "b" (quote evil-jump-backward)
+    "f" (quote evil-jump-forward))
 
-(add-to-list 'load-path "~/.emacs.d/site-lisp/evil-noautochdir")
 
-(use-package evil-noautochdir)
+(use-package evil-noautochdir
+  :init
+  (add-to-list 'load-path "~/.emacs.d/site-lisp/evil-noautochdir")
+  :ensure nil)
 
 (use-package evil
   :config
@@ -208,6 +213,51 @@
 
 (modeline-remove-lighter 'undo-tree-mode)
 
+
+;; programming
+
+(use-package company
+  :config
+  (setq company-auto-complete t)
+  (use-package company-quickhelp)
+  (setq company-idle-delay 0.1)
+  (setq company-minimum-prefix-length 2)
+  (setq company-transformers '(company-sort-by-backend-importance))
+  (setq company-frontends
+        '(company-echo-frontend
+          company-pseudo-tooltip-frontend
+          company-quickhelp-frontend))
+  ;; (modeline-remove-lighter 'company-mode)
+  )
+
+(use-package company-debbrev
+  :config
+  (setq company-dabbrev-downcase nil)
+  (setq company-dabbrev-other-buffers t))
+
+(use-package company-yasnippet
+  :init
+  (use-package yasnippet
+    :config
+    (modeline-remove-lighter 'yas-minor-mode)
+    (setq yas-snippet-dirs '("~/.emacs.d/snippets/"))
+    (yas-global-mode 1)
+    (yas-reload-all)))
+
+(use-package company-files)
+
+(use-package flycheck
+  :init
+  (use-package flycheck-popup-tip
+    :init
+    (add-to-list 'load-path "~/.emacs.d/site-lisp/flycheck-popup-tip")
+    :ensure nil)
+  :config
+  (add-hook 'flycheck-mode-hook 'flycheck-popup-tip-mode)
+  (modeline-remove-lighter 'flycheck-mode))
+
+(load "~/.emacs.d/langs/python.el")
+
 ;; (ensure-package-installed
 ;;  'darktooth-theme
 ;;  'powerline
@@ -253,70 +303,6 @@
 
 ;; (add-to-list 'load-path "~/.emacs.d/modules/markdown-mode")
 
-;; ;; activate installed packages
-;; (package-initialize)
-
-;; (defvar margin-background-color "#1c1c1c")
-
-;; (require 'git-gutter)
-;; (git-gutter:linum-setup)
-;; (add-hook 'prog-mode-hook 'git-gutter-mode)
-
-;; (custom-set-variables
-;;  ;; custom-set-variables was added by Custom.
-;;  ;; If you edit it by hand, you could mess it up, so be careful.
-;;  ;; Your init file should contain only one such instance.
-;;  ;; If there is more than one, they won't work right.
-;;  '(git-gutter:added-sign "│")
-;;  '(git-gutter:deleted-sign "│")
-;;  '(git-gutter:modified-sign "│")
-;;  )
-
-;; (require 'darktooth-theme)
-;; (defun inittheme ()
-;;   "Inits theme."
-;;  (set-frame-font "LiberationMono-10")
-;;  (load-theme 'darktooth t)
-;;  (set-face-attribute 'fringe nil :background margin-background-color)
-;;  (set-face-foreground 'git-gutter:modified "purple")
-;;  (set-face-foreground 'git-gutter:added "green")
-;;  (set-face-foreground 'git-gutter:deleted "red")
-;;  )
-
-
-;; (if (daemonp)
-;; (add-hook 'after-make-frame-functions
-;;           '(lambda (f)
-;;              (with-selected-frame f
-;;                (when (window-system f)
-;;                  (inittheme)))))
-;;  (inittheme))
-
-
-;; ;; Line numbers
-;; (require 'linum-relative)
-;; (add-hook 'prog-mode-hook 'linum-relative-mode)
-;; (add-hook 'text-mode-hook 'linum-relative-mode)
-;; (setq linum-relative-current-symbol "")
-
-;; (defun linum-relative-setup-evil ()
-;;   "Setup nlinum-relative-mode for evil."
-;;   (interactive)
-;;   (add-hook 'evil-insert-state-entry-hook
-;;             (lambda () (when (bound-and-true-p linum-relative-mode) (linum-relative-off))))
-;;   (add-hook 'evil-insert-state-exit-hook
-;;             (lambda () (when (bound-and-true-p linum-relative-mode) (linum-relative-on))))
-;;   (add-hook 'evil-normal-state-entry-hook
-;;             (lambda () (when (bound-and-true-p linum-relative-mode) (linum-relative-on))))
-;;   (add-hook 'evil-normal-state-exit-hook
-;;             (lambda () (when (bound-and-true-p linum-relative-mode) (linum-relative-off))))
-;;   (add-hook 'evil-visual-state-entry-hook
-;;             (lambda () (when (bound-and-true-p linum-relative-mode) (linum-relative-on))))
-;;   (add-hook 'evil-visual-state-exit-hook
-;;             (lambda () (when (bound-and-true-p linum-relative-mode) (linum-relative-off))))
-;;   )
-
-;; (linum-relative-setup-evil)
 
 
 ;; (require 'highlight-indent-guides)
@@ -390,46 +376,6 @@
 ;; (global-evil-matchit-mode 1)
 
 
-;; (require 'helm)
-;; (global-set-key (kbd "C-c h") 'helm-command-prefix)
-;; (global-unset-key (kbd "C-x c"))
-;; (global-set-key (kbd "M-x") 'helm-M-x)
-;; (global-set-key (kbd "C-x b") 'helm-mini)
-;; (global-set-key (kbd "C-x C-b") 'helm-buffers-list)
-;; (global-set-key (kbd "C-x C-f") 'helm-find-files)
-;; (evil-leader/set-key
-;;   "l b" 'helm-buffers-list)
-
-;; (setq
-;;  helm-split-window-in-side-p           t
-;;    ; open helm buffer inside current window,
-;;    ; not occupy whole other window
-;;  helm-move-to-line-cycle-in-source     t
-;;    ; move to end or beginning of source when
-;;    ; reaching top or bottom of source.
-;;  helm-ff-search-library-in-sexp        t
-;;    ; search for library in `require' and `declare-function' sexp.
-;;  helm-scroll-amount                    8
-;;    ; scroll 8 lines other window using M-<next>/M-<prior>
-;;  helm-ff-file-name-history-use-recentf t
-;;  ;; Allow fuzzy matches in helm semantic
-;;  helm-semantic-fuzzy-match t
-;;  helm-imenu-fuzzy-match    t)
-;; ;; Have helm automaticaly resize the window
-;; (helm-autoresize-mode 1)
-
-
-;; (require 'projectile)
-;; (projectile-mode 1)
-;; (setq projectile-mode-line '(:eval (format " [%s]" (projectile-project-name))))
-
-;; (require 'helm-projectile)
-;; (helm-projectile-on)
-
-;; (require 'yasnippet)
-;; (setq yas-snippet-dirs '("~/.emacs.d/snippets/"))
-;; (yas-global-mode 1)
-;; (yas-reload-all)
 
 ;; ;; git
 ;; (require 'magit)
@@ -613,7 +559,7 @@
  '(git-gutter:modified-sign "│")
  '(package-selected-packages
    (quote
-    (evil-noautochdir helm-projectile git-gutter evil-leader darktooth-theme auto-compile airline-themes))))
+    (yasnippet company-yasnippet company-debbrev company-quickhelp company evil-noautochdir helm-projectile git-gutter evil-leader darktooth-theme auto-compile airline-themes))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
