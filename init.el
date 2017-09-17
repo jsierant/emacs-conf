@@ -80,7 +80,7 @@
 (add-to-list 'load-path "~/.emacs.d/site-lisp/use-package")
 (eval-when-compile
   (require 'use-package))
-(setq use-package-always-ensure t)
+;; (setq use-package-always-ensure t)
 ;;(require 'diminish)                ;; if you use :diminish
 (require 'bind-key)                ;; if you use any :bind variant
 
@@ -146,7 +146,12 @@
   (define-key evil-normal-state-map "H" 'evil-window-left)
   (define-key evil-normal-state-map "K" 'evil-window-up)
   (define-key evil-normal-state-map "J" 'evil-window-down)
-  (define-key evil-normal-state-map (kbd "SPC") 'helm-buffers-list))
+  (define-key evil-normal-state-map (kbd "SPC") 'helm-buffers-list)
+  (define-key evil-motion-state-map "L" 'evil-window-right)
+  (define-key evil-motion-state-map "H" 'evil-window-left)
+  (define-key evil-motion-state-map "K" 'evil-window-up)
+  (define-key evil-motion-state-map "J" 'evil-window-down)
+  (define-key evil-motion-state-map (kbd "SPC") 'helm-buffers-list))
 
 (use-package auto-compile
   :config
@@ -291,6 +296,23 @@
 
 (load "~/.emacs.d/langs/python.el")
 
+(setq compilation-read-command nil)
+(defun compile-in-bottom-window ()
+  "Compilation in bottom window"
+  (interactive)
+  (setq-local compile-buffer-name  "*compilation*")
+  (if (eq (get-buffer-window compile-buffer-name) nil)
+    (progn
+        (setq compile-window (split-window (frame-root-window) (floor (* (window-total-height (frame-root-window)) 0.8)) 'below))
+        (setq compile-buffer (get-buffer-create compile-buffer-name))
+        (set-window-buffer compile-window compile-buffer)
+    )
+  )
+  (call-interactively 'compile))
+
+(global-set-key [f8] 'compile-in-bottom-window)
+
+;; (add-hook 'compilation-mode-hook 'my-compilation-hook)
 ;; (ensure-package-installed
 ;;  'darktooth-theme
 ;;  'powerline
