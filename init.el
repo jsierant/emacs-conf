@@ -27,7 +27,7 @@
 (scroll-bar-mode -1)
 (setq x-super-keysym 'meta)
 (setq x-alt-keysym 'alt)
-(setq frame-resize-pixelwise t)
+;; (setq frame-resize-pixelwise t)
 
 ;; disable welcome screen
 (setq inhibit-splash-screen t)
@@ -86,7 +86,7 @@
 
 ;; theme initialization
 (defvar margin-background-color "#1c1c1c")
-(defvar linum-background-color "#282828")
+(defvar gitgutter-background-color "#282828")
 (defun init-theme-impl ()
   "Init theme."
  (set-frame-font "LiberationMono-9")
@@ -156,17 +156,12 @@
   (interactive)
   (byte-recompile-directory (expand-file-name "~/.emacs.d") 0))
 
-(use-package linum
-  :config
-  (global-linum-mode 1))
-
 (use-package git-gutter
   :config
   (setq git-gutter-sign "▌")
-  (set-face-background 'git-gutter:modified linum-background-color)
-  (set-face-background 'git-gutter:added linum-background-color)
-  (set-face-background 'git-gutter:deleted linum-background-color)
-  (git-gutter:linum-setup)
+  (set-face-background 'git-gutter:modified gitgutter-background-color)
+  (set-face-background 'git-gutter:added gitgutter-background-color)
+  (set-face-background 'git-gutter:deleted gitgutter-background-color)
   (add-hook 'prog-mode-hook 'git-gutter-mode)
   (custom-set-variables
    '(git-gutter:added-sign git-gutter-sign)
