@@ -296,21 +296,8 @@
 
 (load "~/.emacs.d/langs/python.el")
 
-(setq compilation-read-command nil)
-(defun compile-in-bottom-window ()
-  "Compilation in bottom window"
-  (interactive)
-  (setq-local compile-buffer-name  "*compilation*")
-  (if (eq (get-buffer-window compile-buffer-name) nil)
-    (progn
-        (setq compile-window (split-window (frame-root-window) (floor (* (window-total-height (frame-root-window)) 0.8)) 'below))
-        (setq compile-buffer (get-buffer-create compile-buffer-name))
-        (set-window-buffer compile-window compile-buffer)
-    )
-  )
-  (call-interactively 'compile))
+(load-file "~/.emacs.d/buildsystem/buildsystem.el")
 
-(global-set-key [f8] 'compile-in-bottom-window)
 
 ;; (add-hook 'compilation-mode-hook 'my-compilation-hook)
 ;; (ensure-package-installed
