@@ -21,42 +21,19 @@
 
 
 ;; backends
-(defmethod make_command (_ targets) (concat "make " targets))
+(defmethod build_command (_ targets) (concat "make " targets))
 (defmethod setup_command (_) "")
 (defmethod cwd (_) default-directory)
 
-;; make buildsystem
-(defclass buildsystem/make ()
-  ((name :initform "make")))
-
-(defmethod detect ((obj buildsystem/make))
- (file-readable-p "./Makefile"))
-
-
-(defclass buildsystem/cmake ()
-  ((name :initform "cmake")
-   (builddir :initform "build")
-   (options :initform ("-DCMAKE_EXPORT_COMPILE_COMMANDS=ON")) ))
-
-(defmethod detect ((obj buildsystem/cmake))
- (file-readable-p "./CMakeLists.txt"))
-
-(defmethod setup_command ((obj buildsystem/cmake))
-  (concat "cmake "
-          (mapconcat
-           'identity
-           (slot-value obj 'options) " ")
-          " "
-          (projectile-project-root) (slot-value obj 'builddir)))
-
-(defmethod cwd ((obj buildsystem/cmake))
-  (concat (projectile-project-root) (slot-value obj 'builddir)))
-
+(load-file "~/.emacs.d/buildsystem/make.el")
+(load-file "~/.emacs.d/buildsystem/cmake.el")
+(load-file "~/.emacs.d/buildsystem/g++.el")
 
 (setq buildsystem/backends
       (list
        (make-instance 'buildsystem/make)
-       (make-instance 'buildsystem/cmake) ))
+       (make-instance 'buildsystem/cmake)
+       (make-instance 'buildsystem/g++) ))
 
 
 ;; system
@@ -95,7 +72,7 @@
 (defun buildsystem/run (targets)
   (if (eq buildsystem/active nil)
       (message "BuildSystem: no buildsystem type set/detected!")
-    (let ((compile-command (make_command buildsystem/active targets))
+    (let ((compile-command (build_command buildsystem/active targets))
           (default-directory (cwd buildsystem/active)))
       (message (concat "BuildSystem: building targets [ " targets " ]"))
       (compile-in-bottom-window) )))
