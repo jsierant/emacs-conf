@@ -29,6 +29,7 @@
 (load-file "~/.emacs.d/buildsystem/cmake.el")
 (load-file "~/.emacs.d/buildsystem/g++.el")
 (load-file "~/.emacs.d/buildsystem/graphviz.el")
+(load-file "~/.emacs.d/buildsystem/latex.el")
 
 (setq buildsystem/backends
       (list
@@ -36,6 +37,7 @@
        (make-instance 'buildsystem/cmake)
        (make-instance 'buildsystem/g++)
        (make-instance 'buildsystem/graphviz)
+       (make-instance 'buildsystem/latex)
        ))
 
 
