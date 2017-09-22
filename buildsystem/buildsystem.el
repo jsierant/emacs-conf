@@ -28,12 +28,15 @@
 (load-file "~/.emacs.d/buildsystem/make.el")
 (load-file "~/.emacs.d/buildsystem/cmake.el")
 (load-file "~/.emacs.d/buildsystem/g++.el")
+(load-file "~/.emacs.d/buildsystem/graphviz.el")
 
 (setq buildsystem/backends
       (list
        (make-instance 'buildsystem/make)
        (make-instance 'buildsystem/cmake)
-       (make-instance 'buildsystem/g++) ))
+       (make-instance 'buildsystem/g++)
+       (make-instance 'buildsystem/graphviz)
+       ))
 
 
 ;; system

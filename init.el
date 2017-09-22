@@ -215,6 +215,7 @@
 
 (modeline-remove-lighter 'undo-tree-mode)
 
+(use-package graphviz-dot-mode)
 
 ;; programming
 
