@@ -250,7 +250,7 @@
     (setq flycheck-popup-tip-error-prefix "► ")
     )
   :config
-  (setq flycheck-display-errors-delay 0.4)
+  (setq flycheck-display-errors-delay 0.5)
   (add-hook 'flycheck-mode-hook 'flycheck-popup-tip-mode)
   (modeline-remove-lighter 'flycheck-mode)
 
@@ -267,17 +267,47 @@
     :next-checkers (python-pylint)
     :modes python-mode))
 
-(use-package lsp-mode
-  :config
-    (require 'lsp-flycheck)
-    (use-package lsp-python)
-  )
+
+(add-to-list 'load-path "~/.emacs.d/site-lisp/lsp-mode")
+
+(require 'lsp-mode)
+(require 'lsp-flycheck)
+(use-package lsp-python)
 
 (modeline-remove-lighter 'eldoc-mode)
 
-(load "~/.emacs.d/langs/python.el")
+(use-package company
+  :config
+  (use-package yasnippet
+    :config
+    (setq yas-snippet-dirs
+          '("~/.emacs.d/snippets"))
+    (yas-reload-all)
+    (require 'company-yasnippet) )
 
-;; (load-file "~/.emacs.d/buildsystem/buildsystem.el")
+  (setq company-auto-complete t)
+  (global-set-key (kbd "C-SPC") 'company-complete)
+  (setq company-tooltip-limit 20)
+  (setq company-minimum-prefix-length 3)
+  (modeline-remove-lighter 'company-mode)
+  (define-key company-active-map [tab] 'company-select-next)
+  (define-key company-active-map [backtab] 'company-select-previous)
+  (setq company-frontends
+        '(company-echo-frontend
+          company-pseudo-tooltip-frontend
+          ;; company-quickhelp-frontend
+          ))
+  (require 'company-capf)
+  (require 'company-abbrev)
+  (setq company-dabbrev-downcase nil)
+  (setq company-dabbrev-other-buffers t) )
+
+(load "~/.emacs.d/langs/python.el")
+(load "~/.emacs.d/langs/cpp.el")
+
+
+
+(load-file "~/.emacs.d/buildsystem/buildsystem.el")
 
 
 ;; (add-hook 'compilation-mode-hook 'my-compilation-hook)

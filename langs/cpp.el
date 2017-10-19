@@ -3,37 +3,26 @@
 
 ;;; Code:
 
-(require 'rtags)
-(require 'company-rtags)
-(require 'flycheck-rtags)
-(require 'flycheck-clang-tidy)
-(require 'rtags-helm)
-(require 'disaster)
-(load "/usr/share/clang/clang-format.el")
+(require 'lsp-mode)
+(lsp-define-stdio-client
+ 'c++-mode "cpp" 'stdio
+ #'(lambda () default-directory)
+ "Clang Language Server"
+ '("clangd") )
+
+(use-package disaster)
 
 (defun cpp/mode-setup()
   "Setup function for C++ mode"
-   (set (make-local-variable 'company-backends)
-        '((company-rtags
-           :with company-yasnippet
-           :with company-files
-           )))
 
   (highlight-indent-guides-mode)
-
-  (setq rtags-autostart-diagnostics t)
-  (setq rtags-completions-enabled t)
-
-;  (setq-local flycheck-highlighting-mode nil) ;; RTags creates more accurate overlays.
-
-                                        ; (setq-local flycheck-check-syntax-automatically nil)
-  (flycheck-select-checker 'rtags)
-  (flycheck-clang-tidy-setup)
-  (flycheck-add-next-checker 'rtags 'c/c++-clang-tidy)
-  (rtags-diagnostics 1)
-  (company-mode)
+  (lsp-mode)
   (flycheck-mode)
-  (setq rtags-use-helm t)
+  (set (make-local-variable 'company-backends)
+       '((company-capf :separate company-dabbrev-code company-yasnippet)))
+  (setq company-auto-complete-chars "\.")
+  (company-mode)
+  (yas-minor-mode)
   (flyspell-prog-mode)
 )
 
@@ -44,36 +33,13 @@
 
 (evil-leader/set-key-for-mode
   'c++-mode
-  "d" 'rtags-print-symbol-info
-  "j" 'rtags-find-symbol-at-point
-  "u" 'rtags-find-references-at-point
-  "b" 'rtags-location-stack-back
-  "f" 'rtags-location-stack-forward
-  "r r" 'rtags-rename-symbol
-  "r f" 'clang-format-region
-  "r i" 'rtags-get-include-file-for-symbol
-  "t p" 'rtags-preprocess-file
-  "t a" 'disaster
+  "ta" 'disaster
   )
 
 (evil-leader/set-key-for-mode
   'c-mode
-  "d" 'rtags-print-symbol-info
-  "j" 'rtags-find-symbol-at-point
-  "u" 'rtags-find-references-at-point
-  "b" 'rtags-location-stack-back
-  "f" 'rtags-location-stack-forward
-  "r r" 'rtags-rename-symbol
-  "r f" 'clang-format-region
-  "r i" 'rtags-get-include-file-for-symbol
-  "t p" 'rtags-preprocess-file
-  "t a" 'disaster
+  "ta" 'disaster
   )
-
-(define-key c++-mode-map (kbd "<f5>") 'rtags-reparse-file)
-(define-key c++-mode-map (kbd "<f4>") 'helm-flyspell-correct)
-(define-key c-mode-map (kbd "<f5>") 'rtags-reparse-file)
-(define-key c-mode-map (kbd "<f4>") 'helm-flyspell-correct)
 
 (provide 'cpp)
 ;;; cpp.el ends here

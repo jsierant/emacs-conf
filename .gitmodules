@@ -13,3 +13,6 @@
 [submodule "site-lisp/flycheck-popup-tip"]
 	path = site-lisp/flycheck-popup-tip
 	url = https://github.com/flycheck/flycheck-popup-tip.git
+[submodule "site-lisp/lsp-mode"]
+	path = site-lisp/lsp-mode
+	url = https://jsierant@github.com/jsierant/lsp-mode.git
