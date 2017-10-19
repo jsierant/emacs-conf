@@ -80,7 +80,7 @@
 (add-to-list 'load-path "~/.emacs.d/site-lisp/use-package")
 (eval-when-compile
   (require 'use-package))
-;; (setq use-package-always-ensure t)
+(setq use-package-always-ensure t)
 ;;(require 'diminish)                ;; if you use :diminish
 (require 'bind-key)                ;; if you use any :bind variant
 
@@ -128,8 +128,10 @@
   (evil-leader/set-leader ",")
   (evil-leader/set-key
     "c" 'comment-dwim
+    "fr" 'xref-find-references
+    "j"  'xref-find-definition
     "ff" 'helm-projectile-find-file
-    "fw" 'helm-projectilr-grep)
+    "fw" 'helm-projectile-grep)
     "b" (quote evil-jump-backward)
     "f" (quote evil-jump-forward))
 
@@ -183,11 +185,13 @@
    (global-set-key (kbd "M-x") 'helm-M-x)
    (global-set-key (kbd "C-x b") 'helm-mini)
    (setq
+    helm-mode-fuzzy-match                 t
     helm-split-window-in-side-p           t
     helm-move-to-line-cycle-in-source     t
-    helm-scroll-amount                    10)
-    (helm-autoresize-mode 1)
-   )
+    helm-scroll-amount                    10
+    helm-autoresize-mode                  1)
+    (helm-mode)
+    (modeline-remove-lighter 'helm-mode) )
 
 (use-package projectile
     :config
@@ -226,37 +230,6 @@
   (set-face-foreground 'highlight-indent-guides-character-face "darkgray"))
   
 
-(use-package company
-  :config
-  (setq company-auto-complete t)
-  (use-package company-quickhelp)
-  (setq company-idle-delay 0.1)
-  (setq company-minimum-prefix-length 2)
-  (setq company-transformers '(company-sort-by-backend-importance))
-  (setq company-frontends
-        '(company-echo-frontend
-          company-pseudo-tooltip-frontend
-          company-quickhelp-frontend))
-  ;; (modeline-remove-lighter 'company-mode)
-  )
-
-(use-package company-debbrev
-  :config
-  (setq company-dabbrev-downcase nil)
-  (setq company-dabbrev-other-buffers t))
-
-(use-package company-yasnippet
-  :init
-  (use-package yasnippet
-    :config
-    (modeline-remove-lighter 'yas-minor-mode)
-    (setq yas-snippet-dirs '("~/.emacs.d/snippets/"))
-    (yas-global-mode 1)
-    (yas-reload-all)))
-
-(use-package company-files)
-
-
 (use-package flycheck
   :init
   (defun flycheck-error-format-extension(err)
@@ -273,7 +246,6 @@
   (use-package flycheck-popup-tip
     :init
     (add-to-list 'load-path "~/.emacs.d/site-lisp/flycheck-popup-tip")
-    :ensure nil
     :config
     (setq flycheck-popup-tip-error-prefix "► ")
     )
@@ -295,9 +267,17 @@
     :next-checkers (python-pylint)
     :modes python-mode))
 
+(use-package lsp-mode
+  :config
+    (require 'lsp-flycheck)
+    (use-package lsp-python)
+  )
+
+(modeline-remove-lighter 'eldoc-mode)
+
 (load "~/.emacs.d/langs/python.el")
 
-(load-file "~/.emacs.d/buildsystem/buildsystem.el")
+;; (load-file "~/.emacs.d/buildsystem/buildsystem.el")
 
 
 ;; (add-hook 'compilation-mode-hook 'my-compilation-hook)

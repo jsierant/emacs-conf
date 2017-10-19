@@ -25,8 +25,8 @@
 (defmethod setup_command (_) "")
 (defmethod cwd (_) default-directory)
 
-(load-file "~/.emacs.d/buildsystem/make.el")
-(load-file "~/.emacs.d/buildsystem/cmake.el")
+;; (load-file "~/.emacs.d/buildsystem/make.el")
+;; (load-file "~/.emacs.d/buildsystem/cmake.el")
 (load-file "~/.emacs.d/buildsystem/g++.el")
 (load-file "~/.emacs.d/buildsystem/graphviz.el")
 (load-file "~/.emacs.d/buildsystem/latex.el")
