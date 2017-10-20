@@ -198,23 +198,23 @@
    (modeline-remove-lighter 'helm-mode) )
 
 (use-package projectile
-    :config
-    (projectile-mode 1)
-    (setq projectile-mode-line '(:eval (format " [%s]" (projectile-project-name))))
-    (defun projectile-frame-title-format ()
-        "Return frame title with current project name, where applicable."
-        (let ((file buffer-file-name))
-        (if file
-            (concat (when (and (bound-and-true-p projectile-mode)
-                                (projectile-project-p))
-                        (format " [%s]" (projectile-project-name)))
-                    " "
-                    (file-name-nondirectory file))
-            "%b")))
+  :config
+  (projectile-mode 1)
+  (setq projectile-mode-line '(:eval (format " [%s]" (projectile-project-name))))
+  (defun projectile-frame-title-format ()
+    "Return frame title with current project name, where applicable."
+    (let ((file buffer-file-name))
+      (if file
+          (concat (when (and (bound-and-true-p projectile-mode)
+                             (projectile-project-p))
+                    (format " [%s]" (projectile-project-name)))
+                  " "
+                  (file-name-nondirectory file))
+        "%b")))
 
-    (when (display-graphic-p)
-        (setq frame-title-format '((:eval (projectile-frame-title-format)))))
-    )
+  (when (display-graphic-p)
+    (setq frame-title-format '((:eval (projectile-frame-title-format)))))
+  )
 
 (use-package helm-projectile
   :config
