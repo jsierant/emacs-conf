@@ -130,8 +130,8 @@
     "c" 'comment-dwim
     "fr" 'xref-find-references
     "j"  'xref-find-definition
-    "ff" 'helm-projectile-find-file
-    "fw" 'helm-projectile-grep)
+    "ff" 'helm-find-files
+    "fw" 'helm-do-grep-ag)
     "b" (quote evil-jump-backward)
     "f" (quote evil-jump-forward))
 
@@ -184,14 +184,18 @@
    (global-unset-key (kbd "C-x c"))
    (global-set-key (kbd "M-x") 'helm-M-x)
    (global-set-key (kbd "C-x b") 'helm-mini)
-   (setq
-    helm-mode-fuzzy-match                 t
-    helm-split-window-in-side-p           t
-    helm-move-to-line-cycle-in-source     t
-    helm-scroll-amount                    10
-    helm-autoresize-mode                  1)
-    (helm-mode)
-    (modeline-remove-lighter 'helm-mode) )
+   (setq helm-grep-ag-command "ag --line-numbers -S --hidden --color --color-match '31;43' --nogroup %s %s %s")
+   (setq helm-grep-ag-pipe-cmd-switches '("--color-match '31;43'"))
+   (setq helm-mode-fuzzy-match t)
+   (setq helm-split-window-in-side-p nil)
+   (setq helm-move-to-line-cycle-in-source t)
+   (setq helm-scroll-amount 10)
+   (helm-autoresize-mode 1)
+   (setq helm-autoresize-max-height 20)
+   (helm-mode)
+   (defadvice helm-display-mode-line (after undisplay-header activate)
+     (setq header-line-format nil) )
+   (modeline-remove-lighter 'helm-mode) )
 
 (use-package projectile
     :config
@@ -307,9 +311,7 @@
 (load "~/.emacs.d/langs/cpp.el")
 
 
-
 (load-file "~/.emacs.d/buildsystem/buildsystem.el")
-
 
 ;; (add-hook 'compilation-mode-hook 'my-compilation-hook)
 ;; (ensure-package-installed
