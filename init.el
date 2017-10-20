@@ -58,6 +58,8 @@
 ;; (setq-default message-log-max nil)
 ;; (kill-buffer "*Messages*")
 
+(setq debug-on-error t)
+
 ;; Removes *Completions* from buffer after you've opened a file.
 (add-hook 'minibuffer-exit-hook
           (lambda () (kill-buffer-if-exist "*Completions*")))
@@ -131,6 +133,7 @@
     "fr" 'xref-find-references
     "j"  'xref-find-definition
     "ff" 'helm-find-files
+    "s" 'lsp-signature
     "fw" 'helm-do-grep-ag)
     "b" (quote evil-jump-backward)
     "f" (quote evil-jump-forward))
@@ -290,7 +293,7 @@
     (yas-reload-all)
     (require 'company-yasnippet) )
 
-  (setq company-auto-complete t)
+  (setq company-auto-complete nil)
   (global-set-key (kbd "C-SPC") 'company-complete)
   (setq company-tooltip-limit 20)
   (setq company-minimum-prefix-length 3)
@@ -329,6 +332,8 @@
               (define-key evil-normal-state-local-map (kbd "c") 'neotree-create-node)
               (define-key evil-normal-state-local-map (kbd "RET") 'neotree-enter)))
   (global-set-key [f2] 'neotree-toggle))
+
+(global-set-key (kbd "C-s") 'lsp-signature)
 
 ;; (add-hook 'compilation-mode-hook 'my-compilation-hook)
 ;; (ensure-package-installed
@@ -578,7 +583,6 @@
 ;;     (setq frame-title-format '((:eval (projectile-frame-title-format)))))
 
 
-;; (setq debug-on-error t)
 ;; (setq enable-local-eval t)
 
 ;; (require 'direx)
