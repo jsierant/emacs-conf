@@ -313,6 +313,21 @@
 
 (load-file "~/.emacs.d/buildsystem/buildsystem.el")
 
+(use-package neotree
+  :config
+  (setq neo-smart-open t)
+  (add-hook 'neotree-mode-hook
+            (lambda ()
+              (define-key evil-normal-state-local-map [f5] 'neotree-refresh)
+              (define-key evil-normal-state-local-map (kbd ".") 'neotree-hidden-file-toggle)
+              (define-key evil-normal-state-local-map (kbd "l") 'neotree-quick-look)
+              (define-key evil-normal-state-local-map (kbd "r") 'neotree-rename-node)
+              (define-key evil-normal-state-local-map (kbd "q") 'neotree-hide)
+              (define-key evil-normal-state-local-map (kbd "d") 'neotree-delete-node)
+              (define-key evil-normal-state-local-map (kbd "c") 'neotree-create-node)
+              (define-key evil-normal-state-local-map (kbd "RET") 'neotree-enter)))
+  (global-set-key [f2] 'neotree-toggle))
+
 ;; (add-hook 'compilation-mode-hook 'my-compilation-hook)
 ;; (ensure-package-installed
 ;;  'darktooth-theme
