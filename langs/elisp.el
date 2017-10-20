@@ -5,26 +5,25 @@
 ;;; Code:
 
 
-(provide 'module_name)
-(require 'company-elisp)
-(require 'elisp-slime-nav)
-(require 'company-quickhelp)
+(use-package elisp-slime-nav
+  :config
+  (modeline-remove-lighter 'elisp-slime-nav-mode) )
 
 (defun elisp/mode-setup()
   "Setup function for elisp mode"
    (set (make-local-variable 'company-backends)
-        '((company-elisp
-           :with company-yasnippet
-           :with company-files
-           :with company-dabbrev
+        '((:seperate
+           company-elisp
+           company-yasnippet
+           company-files
+           company-dabbrev
            )))
 
   (flycheck-mode)
 
   (elisp-slime-nav-mode)
-  (local-set-key (kbd "C-c d") 'describe-symbol)
   (company-mode)
-  (company-quickhelp-mode 1)
+  ;; (company-quickhelp-mode 1)
   )
 
 (add-hook 'ielm-mode-hook 'elisp/mode-setup)
@@ -33,13 +32,15 @@
 
 (evil-leader/set-key-for-mode
   'emacs-lisp-mode
-  "s d" 'describe-symbol
-  "g d" 'elisp-slime-nav-find-elisp-thing-at-point
-  "g b" 'pop-tag-mark)
+  "d" 'describe-symbol
+  "j" 'elisp-slime-nav-find-elisp-thing-at-point
+  "b" 'pop-tag-mark)
 
 (evil-leader/set-key-for-mode
   'ielm
-  "s d" 'describe-symbol
-  "g d" 'elisp-slime-nav-find-elisp-thing-at-point
-  "g b" 'pop-tag-mark)
+  "d" 'describe-symbol
+  "j" 'elisp-slime-nav-find-elisp-thing-at-point
+  "b" 'pop-tag-mark)
 
+
+(provide 'elisp)

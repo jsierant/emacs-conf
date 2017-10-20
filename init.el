@@ -304,11 +304,13 @@
           ))
   (require 'company-capf)
   (require 'company-abbrev)
+  (require 'company-elisp)
   (setq company-dabbrev-downcase nil)
   (setq company-dabbrev-other-buffers t) )
 
 (load "~/.emacs.d/langs/python.el")
 (load "~/.emacs.d/langs/cpp.el")
+(load "~/.emacs.d/langs/elisp.el")
 
 
 (load-file "~/.emacs.d/buildsystem/buildsystem.el")
