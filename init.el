@@ -273,6 +273,7 @@
 (require 'lsp-mode)
 (require 'lsp-flycheck)
 (use-package lsp-python)
+(setq lsp-enable-eldoc nil)
 
 (modeline-remove-lighter 'eldoc-mode)
 
